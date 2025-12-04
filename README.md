@@ -1,4 +1,5 @@
-# FUNLEARN - Gamified Learning Management System
+# FUNLEARN - INreactive Learning App
+
 
 A modern, interactive learning management system with gamification features built with Node.js, Express, and MySQL.
 
