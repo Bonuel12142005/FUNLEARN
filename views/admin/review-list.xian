@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review Reports - DOH Sanitation System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+    
+    .animate-fadeInUp {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .glass-hover:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .report-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      transition: all 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-900 via-indigo-700 to-indigo-500 min-h-screen text-white">
+  
+  <!-- Navigation -->
+  <nav class="glass sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-4">
+          <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-2xl">
+            <svg class="w-7 h-7 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-xl font-bold">DOH Review Center</h1>
+            <p class="text-xs opacity-80">Report Management</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <a href="/admin/dashboard" class="glass glass-hover px-6 py-2.5 rounded-lg font-semibold transition-all duration-300 inline-flex items-center space-x-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            <span>Dashboard</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="max-w-7xl mx-auto px-6 py-20 text-center">
+    <div class="animate-fadeInUp">
+      <div class="inline-block glass px-6 py-2 rounded-full mb-8">
+        <span class="text-sm font-semibold">📋 Department of Health - Report Review Center</span>
+      </div>
+      
+      <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
+        Report Review<br/>
+        <span class="bg-gradient-to-r from-indigo-200 to-white bg-clip-text text-transparent">
+          & Management
+        </span>
+      </h1>
+      
+      <p class="text-xl md:text-2xl text-indigo-100 max-w-3xl mx-auto mb-10 leading-relaxed">
+        Review, approve, and manage sanitation inspection reports with comprehensive oversight and quality control
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-6 pb-8">
+
+    <!-- Filter Section -->
+    <section class="mb-12">
+      <div class="glass glass-hover rounded-2xl p-8 transition-all duration-300">
+        <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-bold mb-6">Filter Reports</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div>
+            <label class="block text-indigo-200 text-sm font-medium mb-2">Status</label>
+            <select class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-400">
+              <option value="">All Status</option>
+              <option value="pending">Pending Review</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+          
+          <div>
+            <label class="block text-indigo-200 text-sm font-medium mb-2">Report Type</label>
+            <select class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-400">
+              <option value="">All Types</option>
+              <option value="food_safety">Food Safety</option>
+              <option value="water_quality">Water Quality</option>
+              <option value="waste_management">Waste Management</option>
+            </select>
+          </div>
+          
+          <div>
+            <label class="block text-indigo-200 text-sm font-medium mb-2">Date Range</label>
+            <input type="date" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-400">
+          </div>
+          
+          <div class="flex items-end">
+            <button class="w-full bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold hover:bg-indigo-50 transition-all duration-300 shadow-lg hover:shadow-xl">
+              Apply Filters
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reports List -->
+    <section class="mb-16">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">Pending Reviews</h2>
+        <p class="text-xl text-indigo-100">Reports awaiting your review and approval</p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6">
+        {{#each reports}}
+        <div class="glass glass-hover rounded-2xl p-8 transition-all duration-300 report-card {{#if this.isNew}}border-2 border-red-400/50 bg-red-500/10{{/if}}">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div class="flex-1">
+              <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-{{#eq this.reportType 'household'}}yellow{{else}}{{#eq this.reportType 'establishment'}}blue{{else}}{{#eq this.reportType 'water_source'}}cyan{{else}}green{{/eq}}{{/eq}}{{/eq}}-400 to-{{#eq this.reportType 'household'}}yellow{{else}}{{#eq this.reportType 'establishment'}}blue{{else}}{{#eq this.reportType 'water_source'}}cyan{{else}}green{{/eq}}{{/eq}}{{/eq}}-600 rounded-xl flex items-center justify-center shadow-lg">
+                  {{#eq this.reportType 'household'}}
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                  </svg>
+                  {{else}}{{#eq this.reportType 'establishment'}}
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                  </svg>
+                  {{else}}{{#eq this.reportType 'water_source'}}
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+                  </svg>
+                  {{else}}
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                  </svg>
+                  {{/eq}}{{/eq}}{{/eq}}
+                </div>
+                <div>
+                  <h3 class="text-xl font-bold text-white">
+                    {{#eq this.reportType 'household'}}Household Inspection{{/eq}}
+                    {{#eq this.reportType 'establishment'}}Establishment Inspection{{/eq}}
+                    {{#eq this.reportType 'water_source'}}Water Source Assessment{{/eq}}
+                    {{#eq this.reportType 'wastewater_facility'}}Wastewater Facility Audit{{/eq}}
+                    - Report #{{this.id}}
+                    {{#if this.isNew}}<span class="ml-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold animate-pulse">NEW</span>{{/if}}
+                  </h3>
+                  <p class="text-indigo-200 text-sm">Submitted by: {{this.inspector.fullName}}</p>
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div class="bg-white/5 rounded-lg p-3 border border-white/10">
+                  <p class="text-indigo-200 text-xs uppercase tracking-wide">Location</p>
+                  <p class="text-white font-semibold">{{this.barangay}}, {{this.municipality}}</p>
+                </div>
+                <div class="bg-white/5 rounded-lg p-3 border border-white/10">
+                  <p class="text-indigo-200 text-xs uppercase tracking-wide">Date Submitted</p>
+                  <p class="text-white font-semibold">{{this.createdAt}}</p>
+                </div>
+                <div class="bg-white/5 rounded-lg p-3 border border-white/10">
+                  <p class="text-indigo-200 text-xs uppercase tracking-wide">Status</p>
+                  <span class="bg-gradient-to-r from-{{#eq this.status 'submitted'}}yellow{{else}}{{#eq this.status 'under_review'}}blue{{else}}green{{/eq}}{{/eq}}-500/20 to-{{#eq this.status 'submitted'}}yellow{{else}}{{#eq this.status 'under_review'}}blue{{else}}green{{/eq}}{{/eq}}-600/20 text-{{#eq this.status 'submitted'}}yellow{{else}}{{#eq this.status 'under_review'}}blue{{else}}green{{/eq}}{{/eq}}-200 px-3 py-1 rounded-full text-xs font-semibold border border-{{#eq this.status 'submitted'}}yellow{{else}}{{#eq this.status 'under_review'}}blue{{else}}green{{/eq}}{{/eq}}-400/30 capitalize">{{this.status}}</span>
+                </div>
+              </div>
+              
+              <p class="text-indigo-100 leading-relaxed">
+                {{this.address}} - Comprehensive {{this.reportType}} inspection requiring administrative review and approval.
+              </p>
+            </div>
+            
+            <div class="flex flex-col gap-3 lg:w-48">
+              <button onclick="quickAction('{{this.id}}', 'approve')" class="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg font-medium">
+                ✓ Approve
+              </button>
+              <button onclick="quickAction('{{this.id}}', 'return')" class="bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg font-medium">
+                ↩ Return
+              </button>
+              <a href="/admin/report/{{this.id}}" class="glass glass-hover py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 font-medium text-center">
+                👁️ View Details
+              </a>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+        
+        {{#unless reports}}
+        <div class="glass rounded-2xl p-12 text-center">
+          <div class="w-24 h-24 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mb-6 mx-auto shadow-lg">
+            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold mb-4">All Caught Up!</h3>
+          <p class="text-indigo-200 text-lg">No reports are currently pending review. Great work!</p>
+        </div>
+        {{/unless}}
+      </div>
+      
+      <script>
+        async function quickAction(reportId, action) {
+          if (!confirm(`Are you sure you want to ${action} this report?`)) return;
+          
+          try {
+            const response = await fetch(`/admin/report/${reportId}/review`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ 
+                action: action,
+                feedback: `Quick ${action} action from review list`
+              })
+            });
+            
+            if (response.ok) {
+              location.reload();
+            } else {
+              alert('Failed to process action. Please try again.');
+            }
+          } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+          }
+        }
+      </script>
+    </section>
+
+    <!-- Quick Actions Section -->
+    <section class="mb-16">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">Quick Actions</h2>
+        <p class="text-xl text-indigo-100">Streamline your review workflow</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Bulk Actions -->
+        <div class="glass glass-hover rounded-2xl p-8 transition-all duration-300">
+          <div class="w-16 h-16 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold mb-3">Bulk Actions</h3>
+          <p class="text-indigo-100 mb-4 leading-relaxed">Process multiple reports simultaneously for efficient workflow management.</p>
+          <button class="w-full bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold hover:bg-indigo-50 transition-all duration-300 shadow-lg hover:shadow-xl">
+            Select Multiple
+          </button>
+        </div>
+
+        <!-- Export Reports -->
+        <div class="glass glass-hover rounded-2xl p-8 transition-all duration-300">
+          <div class="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold mb-3">Export Reports</h3>
+          <p class="text-indigo-100 mb-4 leading-relaxed">Generate comprehensive reports in PDF or Excel format for documentation.</p>
+          <button class="w-full glass glass-hover px-6 py-3 rounded-lg font-semibold transition-all duration-300">
+            📊 Export Data
+          </button>
+        </div>
+
+        <!-- Review Statistics -->
+        <div class="glass glass-hover rounded-2xl p-8 transition-all duration-300">
+          <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold mb-3">Review Statistics</h3>
+          <p class="text-indigo-100 mb-4 leading-relaxed">View detailed analytics on review performance and processing times.</p>
+          <a href="/admin/analytics" class="w-full glass glass-hover px-6 py-3 rounded-lg font-semibold transition-all duration-300 inline-flex items-center justify-center">
+            📈 View Analytics
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer class="glass mt-12">
+    <div class="max-w-7xl mx-auto px-6 py-8 text-center">
+      <p class="text-lg font-semibold mb-2">Department of Health</p>
+      <p class="text-indigo-100 mb-4">Republic of the Philippines</p>
+      <p class="text-sm text-indigo-200">© 2025 DOH Sanitation Monitoring System. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

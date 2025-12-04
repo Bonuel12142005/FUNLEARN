@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grades - {{classData.class_name}} - FUNLEARN</title>
+    <link rel="stylesheet" href="/tailwind.css">
+    <link rel="stylesheet" href="/funlearn-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body class="bg-gray-50">
+    {{> header}}
+
+    <div class="container mx-auto px-6 py-8">
+        <!-- Navigation -->
+        <div class="flex items-center space-x-2 text-sm text-gray-500 mb-6">
+            <a href="/teacher/dashboard" class="hover:text-blue-600">Dashboard</a>
+            <i class="fas fa-chevron-right text-xs"></i>
+            <a href="/teacher/classes" class="hover:text-blue-600">Classes</a>
+            <i class="fas fa-chevron-right text-xs"></i>
+            <a href="/teacher/classes/{{classData.id}}" class="hover:text-blue-600">{{classData.class_name}}</a>
+            <i class="fas fa-chevron-right text-xs"></i>
+            <span class="text-gray-800">Grades</span>
+        </div>
+
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-4xl font-bold text-gray-800">🎯 Grades</h1>
+                <p class="text-gray-600 mt-2">{{classData.class_name}} - View and manage student grades</p>
+            </div>
+            <div class="flex items-center space-x-3">
+                <a href="/teacher/classes/{{classData.id}}/manage" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Management
+                </a>
+                <button class="btn btn-primary" onclick="exportGrades()">
+                    <i class="fas fa-download mr-2"></i>Export Grades
+                </button>
+            </div>
+        </div>
+
+        <!-- Grade Stats -->
+        <div class="grid md:grid-cols-4 gap-6 mb-8">
+            <div class="stat-card">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="stat-label">Total Assignments</p>
+                        <p class="stat-value text-blue-600">{{gradeStats.total_assignments}}</p>
+                    </div>
+                    <div class="text-4xl opacity-20">📊</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="stat-label">Total Submissions</p>
+                        <p class="stat-value text-green-600">{{gradeStats.total_submissions}}</p>
+                    </div>
+                    <div class="text-4xl opacity-20">📤</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="stat-label">Graded</p>
+                        <p class="stat-value text-purple-600">{{gradeStats.graded_submissions}}</p>
+                    </div>
+                    <div class="text-4xl opacity-20">✅</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="stat-label">Pending Reviews</p>
+                        <p class="stat-value text-orange-600">{{subtract gradeStats.total_submissions gradeStats.graded_submissions}}</p>
+                    </div>
+                    <div class="text-4xl opacity-20">⏳</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grades Table -->
+        <div class="card p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Student Grades</h2>
+                <div class="flex items-center space-x-3">
+                    <select class="form-input w-auto">
+                        <option>All Assignments</option>
+                        <option>JavaScript Quiz</option>
+                        <option>Calculator Project</option>
+                        <option>Array Methods</option>
+                    </select>
+                    <button class="btn btn-secondary btn-sm">
+                        <i class="fas fa-filter mr-1"></i>Filter
+                    </button>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                {{#if assignments.length}}
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b border-gray-200">
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Student</th>
+                            {{#each assignments}}
+                            <th class="text-center py-3 px-4 font-semibold text-gray-700">{{this.title}}</th>
+                            {{/each}}
+                            <th class="text-center py-3 px-4 font-semibold text-gray-700">Average</th>
+                            <th class="text-center py-3 px-4 font-semibold text-gray-700">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each classData.students}}
+                        <tr class="border-b border-gray-100 hover:bg-gray-50">
+                            <td class="py-4 px-4">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                                        {{substring this.first_name 0 1}}{{substring this.last_name 0 1}}
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-gray-800">{{this.first_name}} {{this.last_name}}</p>
+                                        <p class="text-sm text-gray-500">{{this.email}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            {{#each ../assignments}}
+                            <td class="text-center py-4 px-4">
+                                {{#each this.grades}}
+                                    {{#eq this.student.id ../../id}}
+                                        {{#if this.percentage}}
+                                        <span class="px-3 py-1 
+                                            {{#gte this.percentage 90}}bg-green-100 text-green-800{{/gte}}
+                                            {{#and (gte this.percentage 80) (lt this.percentage 90)}}bg-blue-100 text-blue-800{{/and}}
+                                            {{#and (gte this.percentage 70) (lt this.percentage 80)}}bg-yellow-100 text-yellow-800{{/and}}
+                                            {{#lt this.percentage 70}}bg-red-100 text-red-800{{/lt}}
+                                            rounded-full text-sm font-semibold">
+                                            {{round this.percentage}}%
+                                        </span>
+                                        {{else}}
+                                        <span class="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
+                                            {{#eq this.status 'submitted'}}Pending{{/eq}}
+                                            {{#eq this.status 'not_submitted'}}Not Submitted{{/eq}}
+                                        </span>
+                                        {{/if}}
+                                    {{/eq}}
+                                {{else}}
+                                <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">Not Submitted</span>
+                                {{/each}}
+                            </td>
+                            {{/each}}
+                            <td class="text-center py-4 px-4">
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full font-bold">--</span>
+                            </td>
+                            <td class="text-center py-4 px-4">
+                                <a href="/teacher/classes/{{../classData.id}}/students/{{this.id}}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-eye mr-1"></i>View
+                                </a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                {{else}}
+                <div class="text-center py-12">
+                    <div class="text-6xl mb-4 opacity-50">📊</div>
+                    <p class="text-gray-500 mb-4">No assignments to grade yet</p>
+                    <p class="text-gray-400 text-sm mb-6">Create assignments first to start grading</p>
+                    <a href="/teacher/classes/{{classData.id}}/assignments" class="btn btn-primary">
+                        <i class="fas fa-plus mr-2"></i>Create Assignment
+                    </a>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function exportGrades() {
+            // TODO: Implement grade export functionality
+            alert('Grade export functionality coming soon!');
+        }
+
+        // Add interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to table rows
+            document.querySelectorAll('tbody tr').forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.01)';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

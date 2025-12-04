@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - FUNLEARN</title>
+    <link rel="stylesheet" href="/tailwind.css">
+    <link rel="stylesheet" href="/funlearn-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body class="bg-gray-50">
+    {{> header}}
+
+    <div class="container mx-auto px-6 py-8">
+        <!-- Welcome Section -->
+        <div class="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white rounded-3xl p-8 mb-8 shadow-2xl">
+            <!-- Background Pattern -->
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute top-0 left-0 w-32 h-32 bg-white rounded-full -translate-x-16 -translate-y-16"></div>
+                <div class="absolute top-1/2 right-0 w-24 h-24 bg-white rounded-full translate-x-12"></div>
+                <div class="absolute bottom-0 left-1/3 w-20 h-20 bg-white rounded-full translate-y-10"></div>
+            </div>
+            
+            <div class="relative z-10">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-2">
+                            <h1 class="text-4xl md:text-5xl font-bold">Welcome back, {{student.first_name}}!</h1>
+                            <div class="text-4xl animate-bounce">👋</div>
+                        </div>
+                        <p class="text-blue-100 text-lg md:text-xl">Ready to continue your learning adventure?</p>
+                    </div>
+                    <div class="hidden lg:block">
+                        <div class="w-24 h-24 bg-white/10 rounded-2xl flex items-center justify-center text-5xl backdrop-blur-sm">
+                            🎓
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Achievement Notification -->
+                <div class="bg-yellow-400 text-yellow-900 px-4 py-2 rounded-xl inline-flex items-center space-x-2 mb-6 animate-pulse">
+                    <i class="fas fa-trophy"></i>
+                    <span class="font-semibold">You're on a 7-day learning streak! 🔥</span>
+                </div>
+                
+                <!-- Quick XP Progress -->
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-lg font-semibold text-white">Progress to Level {{add level 1}}</h3>
+                            <p class="text-blue-100 text-sm">Keep learning to unlock new features!</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-2xl font-bold text-white">{{xp}}</div>
+                            <div class="text-blue-200 text-sm">/ {{multiply (add level 1) 100}} XP</div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative">
+                        <div class="bg-white/20 rounded-full h-3 overflow-hidden">
+                            <div class="bg-gradient-to-r from-yellow-400 to-orange-500 h-3 rounded-full transition-all duration-1000 ease-out animate-pulse-glow" 
+                                 style="width: {{round (multiply (divide xp (multiply (add level 1) 100)) 100)}}%"></div>
+                        </div>
+                        <div class="absolute -top-1 bg-white w-5 h-5 rounded-full shadow-lg transition-all duration-1000" 
+                             style="left: {{round (multiply (divide xp (multiply (add level 1) 100)) 100)}}%"></div>
+                    </div>
+                    
+                    <div class="flex justify-between text-xs text-blue-200 mt-2">
+                        <span>Level {{level}}</span>
+                        <span>{{subtract (multiply (add level 1) 100) xp}} XP to next level</span>
+                        <span>Level {{add level 1}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+            <div class="stat-card card-hover bounce-in">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="stat-label">Total XP</p>
+                        <p class="stat-value text-blue-600">{{xp}}</p>
+                        <div class="xp-badge mt-2">⭐ Experience</div>
+                    </div>
+                    <div class="text-5xl opacity-20">⭐</div>
+                </div>
+            </div>
+
+            <div class="stat-card card-hover bounce-in" style="animation-delay: 0.1s">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="stat-label">Current Level</p>
+                        <p class="stat-value text-purple-600">{{level}}</p>
+                        <div class="level-badge mt-2">🎯 Level {{level}}</div>
+                    </div>
+                    <div class="text-5xl opacity-20">🎯</div>
+                </div>
+            </div>
+
+            <div class="stat-card card-hover bounce-in" style="animation-delay: 0.2s">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="stat-label">Badges Earned</p>
+                        <p class="stat-value text-yellow-600">{{badges.length}}</p>
+                        <div class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-semibold mt-2">
+                            🏆 Achievements
+                        </div>
+                    </div>
+                    <div class="text-5xl opacity-20">🏆</div>
+                </div>
+            </div>
+
+            <div class="stat-card card-hover bounce-in" style="animation-delay: 0.3s">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="stat-label">Lessons Done</p>
+                        <p class="stat-value text-green-600">{{completedCount}}</p>
+                        <div class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold mt-2">
+                            ✅ Completed
+                        </div>
+                    </div>
+                    <div class="text-5xl opacity-20">✅</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Main Content -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Continue Learning -->
+                <div class="card p-6 slide-up">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800">📚 Continue Learning</h2>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">
+                            {{recentLessons.length}} in progress
+                        </span>
+                    </div>
+                    
+                    {{#if recentLessons.length}}
+                        <div class="space-y-4">
+                            {{#each recentLessons}}
+                            <div class="lesson-item group">
+                                <div class="flex items-center flex-1">
+                                    <div class="lesson-icon">📖</div>
+                                    <div class="flex-1">
+                                        <h3 class="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
+                                            {{this.lesson.title}}
+                                        </h3>
+                                        <div class="flex items-center space-x-4 mt-2">
+                                            <div class="progress-bar w-32">
+                                                <div class="progress-fill" style="width: {{this.progress_percentage}}%"></div>
+                                            </div>
+                                            <span class="text-sm text-gray-500">{{this.progress_percentage}}% complete</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="/student/lessons/{{this.lesson_id}}" 
+                                    class="btn btn-primary btn-sm shadow-sm">
+                                    Continue →
+                                </a>
+                            </div>
+                            {{/each}}
+                        </div>
+                    {{else}}
+                        <div class="text-center py-12">
+                            <div class="text-6xl mb-4 opacity-50">📚</div>
+                            <p class="text-gray-500 mb-4">No lessons in progress yet</p>
+                            <a href="/student/courses" class="btn btn-primary">
+                                🚀 Explore Courses
+                            </a>
+                        </div>
+                    {{/if}}
+                </div>
+
+                <!-- Available Courses -->
+                <div class="card p-6 slide-up">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800">🎓 Available Courses</h2>
+                        <a href="/student/courses" class="text-blue-600 hover:text-blue-800 text-sm font-semibold">
+                            View All →
+                        </a>
+                    </div>
+                    
+                    {{#if availableCourses.length}}
+                        <div class="grid md:grid-cols-2 gap-4">
+                            {{#each availableCourses}}
+                            <div class="group relative bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-5 border-2 border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="text-3xl">
+                                        {{#eq this.category "Programming"}}💻{{/eq}}
+                                        {{#eq this.category "Mathematics"}}📊{{/eq}}
+                                        {{#eq this.category "Science"}}🔬{{/eq}}
+                                        {{#eq this.category "Languages"}}🗣️{{/eq}}
+                                        {{#eq this.category "Arts"}}🎨{{/eq}}
+                                        {{#unless this.category}}📚{{/unless}}
+                                    </div>
+                                    <span class="px-2 py-1 bg-white rounded-full text-xs font-semibold text-gray-600">
+                                        {{#eq this.difficulty_level "beginner"}}🌱{{/eq}}
+                                        {{#eq this.difficulty_level "intermediate"}}🌿{{/eq}}
+                                        {{#eq this.difficulty_level "advanced"}}🌳{{/eq}}
+                                    </span>
+                                </div>
+                                <h3 class="font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
+                                    {{this.title}}
+                                </h3>
+                                <p class="text-sm text-gray-600 mb-3 line-clamp-2">{{this.description}}</p>
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-lg text-xs font-semibold">
+                                            ⭐ {{this.total_xp}} XP
+                                        </span>
+                                        <span class="text-xs text-gray-500">
+                                            📖 {{this.modules.length}} modules
+                                        </span>
+                                    </div>
+                                </div>
+                                <a href="/student/courses/{{this.id}}" class="block w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center py-2 px-4 rounded-lg font-semibold hover:shadow-md hover:scale-105 transition-all duration-300">
+                                    View Course
+                                </a>
+                            </div>
+                            {{/each}}
+                        </div>
+                    {{else}}
+                        <div class="text-center py-12">
+                            <div class="text-6xl mb-4 opacity-50">📚</div>
+                            <p class="text-gray-500 mb-4">No courses available yet</p>
+                            <p class="text-sm text-gray-400">Check back later for new courses!</p>
+                        </div>
+                    {{/if}}
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card p-6 slide-up">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">🎯 Quick Actions</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <a href="/student/courses" class="group p-4 border-2 border-dashed border-gray-300 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition-all duration-300">
+                            <div class="text-center">
+                                <div class="text-4xl mb-2 group-hover:scale-110 transition-transform">📚</div>
+                                <h3 class="font-semibold text-gray-700 group-hover:text-blue-600">Browse Courses</h3>
+                                <p class="text-sm text-gray-500">Discover new learning paths</p>
+                            </div>
+                        </a>
+                        
+                        <a href="/student/leaderboard" class="group p-4 border-2 border-dashed border-gray-300 rounded-xl hover:border-purple-500 hover:bg-purple-50 transition-all duration-300">
+                            <div class="text-center">
+                                <div class="text-4xl mb-2 group-hover:scale-110 transition-transform">🏆</div>
+                                <h3 class="font-semibold text-gray-700 group-hover:text-purple-600">Leaderboard</h3>
+                                <p class="text-sm text-gray-500">See your ranking</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Recent Badges -->
+                <div class="card p-6 slide-up">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-gray-800">🏆 Recent Badges</h3>
+                        <a href="/student/badges" class="text-blue-600 hover:text-blue-800 text-sm font-semibold">
+                            View All →
+                        </a>
+                    </div>
+                    
+                    {{#if badges.length}}
+                        <div class="space-y-3">
+                            {{#each badges}}
+                            <div class="flex items-center space-x-3 p-3 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border border-yellow-200">
+                                <div class="text-3xl">🏆</div>
+                                <div class="flex-1">
+                                    <p class="font-semibold text-gray-800">{{this.name}}</p>
+                                    <p class="text-xs text-gray-500 capitalize">{{this.rarity}} badge</p>
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>
+                    {{else}}
+                        <div class="text-center py-6">
+                            <div class="text-4xl mb-2 opacity-50">🎯</div>
+                            <p class="text-gray-500 text-sm">No badges yet</p>
+                            <p class="text-gray-400 text-xs">Keep learning to unlock achievements!</p>
+                        </div>
+                    {{/if}}
+                </div>
+
+                <!-- Learning Streak -->
+                <div class="card p-6 slide-up">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">🔥 Learning Streak</h3>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-orange-600 mb-2">7</div>
+                        <p class="text-gray-600 text-sm">Days in a row</p>
+                        <div class="mt-4 flex justify-center space-x-1">
+                            <div class="w-6 h-6 bg-orange-500 rounded-full"></div>
+                            <div class="w-6 h-6 bg-orange-500 rounded-full"></div>
+                            <div class="w-6 h-6 bg-orange-500 rounded-full"></div>
+                            <div class="w-6 h-6 bg-orange-500 rounded-full"></div>
+                            <div class="w-6 h-6 bg-orange-500 rounded-full"></div>
+                            <div class="w-6 h-6 bg-orange-500 rounded-full"></div>
+                            <div class="w-6 h-6 bg-orange-500 rounded-full"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">Keep it up! 🎉</p>
+                    </div>
+                </div>
+
+                <!-- Study Goal -->
+                <div class="card p-6 slide-up">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">📈 Today's Goal</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-sm mb-2">
+                                <span class="text-gray-600">XP Goal</span>
+                                <span class="font-semibold">45/50 XP</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between text-sm mb-2">
+                                <span class="text-gray-600">Lessons</span>
+                                <span class="font-semibold">2/3 completed</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 67%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <p class="text-sm text-green-600 font-semibold">Almost there! 🎯</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate progress bars
+            setTimeout(() => {
+                document.querySelectorAll('.progress-fill').forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0%';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                });
+            }, 500);
+
+            // Add hover effects to cards
+            document.querySelectorAll('.card-hover').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-4px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

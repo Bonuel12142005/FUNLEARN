@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{student.first_name}} {{student.last_name}} - Student Details - FUNLEARN</title>
+    <link rel="stylesheet" href="/tailwind.css">
+    <link rel="stylesheet" href="/funlearn-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body class="bg-gray-50">
+    {{> header}}
+
+    <div class="container mx-auto px-6 py-8">
+        <!-- Navigation -->
+        <div class="flex items-center space-x-2 text-sm text-gray-500 mb-6">
+            <a href="/teacher/dashboard" class="hover:text-blue-600">Dashboard</a>
+            <i class="fas fa-chevron-right text-xs"></i>
+            <a href="/teacher/classes" class="hover:text-blue-600">Classes</a>
+            <i class="fas fa-chevron-right text-xs"></i>
+            <a href="/teacher/classes/{{classData.id}}" class="hover:text-blue-600">{{classData.class_name}}</a>
+            <i class="fas fa-chevron-right text-xs"></i>
+            <span class="text-gray-800">{{student.first_name}} {{student.last_name}}</span>
+        </div>
+
+        <!-- Student Profile Header -->
+        <div class="bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white rounded-3xl p-8 mb-8 shadow-2xl">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center text-white font-bold text-3xl mr-6 backdrop-blur-sm">
+                        {{substring student.first_name 0 1}}{{substring student.last_name 0 1}}
+                    </div>
+                    <div>
+                        <h1 class="text-4xl md:text-5xl font-bold mb-2">{{student.first_name}} {{student.last_name}}</h1>
+                        <p class="text-blue-100 text-lg mb-4">{{student.email}}</p>
+                        <div class="flex items-center space-x-6 text-sm">
+                            <div class="bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2">
+                                <span class="text-blue-200">Student ID:</span>
+                                <span class="font-bold ml-2">{{student.student_id}}</span>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2">
+                                <span class="text-blue-200">Joined:</span>
+                                <span class="font-bold ml-2">{{student.joined_date}}</span>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2">
+                                <span class="text-blue-200">Last Active:</span>
+                                <span class="font-bold ml-2">{{student.last_active}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden lg:block">
+                    <div class="text-center">
+                        <div class="text-6xl mb-2">👤</div>
+                        <p class="text-blue-200 text-sm">Student Profile</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Stats -->
+        <div class="grid md:grid-cols-4 gap-6 mb-8">
+            <div class="stat-card card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="stat-label">Total XP</p>
+                        <p class="stat-value text-blue-600">{{student.stats.total_xp}}</p>
+                    </div>
+                    <div class="text-4xl opacity-20">⚡</div>
+                </div>
+            </div>
+
+            <div class="stat-card card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="stat-label">Current Level</p>
+                        <p class="stat-value text-green-600">{{student.stats.level}}</p>
+                    </div>
+                    <div class="text-4xl opacity-20">⭐</div>
+                </div>
+            </div>
+
+            <div class="stat-card card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="stat-label">Badges Earned</p>
+                        <p class="stat-value text-purple-600">{{student.stats.badges_earned}}</p>
+                    </div>
+                    <div class="text-4xl opacity-20">🏆</div>
+                </div>
+            </div>
+
+            <div class="stat-card card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="stat-label">Average Score</p>
+                        <p class="stat-value text-orange-600">{{student.stats.average_score}}%</p>
+                    </div>
+                    <div class="text-4xl opacity-20">📊</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Main Content -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Student Information -->
+                <div class="card p-6">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white text-xl mr-4">
+                            📋
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800">Student Information</h2>
+                            <p class="text-gray-600">Personal and academic details</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="form-label">Full Name</label>
+                            <input type="text" value="{{student.first_name}} {{student.last_name}}" readonly 
+                                   class="form-input bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="form-label">Email Address</label>
+                            <input type="email" value="{{student.email}}" readonly 
+                                   class="form-input bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="form-label">Student ID</label>
+                            <input type="text" value="{{student.student_id}}" readonly 
+                                   class="form-input bg-gray-50">
+                        </div>
+                        {{#if student.profile.grade_level}}
+                        <div>
+                            <label class="form-label">Grade Level</label>
+                            <input type="text" value="{{student.profile.grade_level}}" readonly 
+                                   class="form-input bg-gray-50">
+                        </div>
+                        {{/if}}
+                        {{#if student.profile.school}}
+                        <div>
+                            <label class="form-label">School</label>
+                            <input type="text" value="{{student.profile.school}}" readonly 
+                                   class="form-input bg-gray-50">
+                        </div>
+                        {{/if}}
+                        <div>
+                            <label class="form-label">Time Spent Learning</label>
+                            <input type="text" value="{{student.stats.time_spent}}" readonly 
+                                   class="form-input bg-gray-50">
+                        </div>
+                    </div>
+
+                    {{#if student.profile.interests}}
+                    <div class="mt-6">
+                        <label class="form-label">Interests</label>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            {{#each student.profile.interests}}
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">{{this}}</span>
+                            {{/each}}
+                        </div>
+                    </div>
+                    {{/if}}
+                </div>
+
+                <!-- Academic Performance -->
+                <div class="card p-6">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-lg flex items-center justify-center text-white text-xl mr-4">
+                            📈
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800">Academic Performance</h2>
+                            <p class="text-gray-600">Learning progress and achievements</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-blue-800 mb-2">Courses</h3>
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span class="text-blue-600">Completed:</span>
+                                    <span class="font-semibold">{{student.stats.courses_completed}}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-blue-600">In Progress:</span>
+                                    <span class="font-semibold">{{student.stats.courses_in_progress}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-green-800 mb-2">Performance</h3>
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span class="text-green-600">Average Score:</span>
+                                    <span class="font-semibold">{{student.stats.average_score}}%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-green-600">Class Rank:</span>
+                                    <span class="font-semibold">#2</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Achievements -->
+                <div class="card p-6">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center text-white text-xl mr-4">
+                            🏆
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800">Achievements & Badges</h2>
+                            <p class="text-gray-600">Recognition and milestones</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-4">
+                        {{#each student.achievements}}
+                        <div class="bg-gradient-to-br from-yellow-50 to-orange-50 p-4 rounded-lg border border-yellow-200">
+                            <div class="flex items-center mb-2">
+                                <span class="text-2xl mr-3">{{this.icon}}</span>
+                                <h3 class="font-semibold text-gray-800">{{this.title}}</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">{{this.description}}</p>
+                            <p class="text-xs text-gray-500">Earned: {{this.earned_date}}</p>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Quick Actions -->
+                <div class="card p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">⚡ Quick Actions</h3>
+                    <div class="space-y-3">
+                        <a href="/teacher/classes/{{classData.id}}/students/{{student.id}}/progress" class="w-full btn btn-primary">
+                            <i class="fas fa-chart-line mr-2"></i>View Progress
+                        </a>
+                        <button class="w-full btn btn-secondary">
+                            <i class="fas fa-envelope mr-2"></i>Send Message
+                        </button>
+                        <button class="w-full btn btn-secondary">
+                            <i class="fas fa-edit mr-2"></i>Edit Profile
+                        </button>
+                        <button class="w-full btn btn-secondary">
+                            <i class="fas fa-download mr-2"></i>Export Data
+                        </button>
+                        <a href="/teacher/classes/{{classData.id}}" class="w-full btn btn-secondary">
+                            <i class="fas fa-arrow-left mr-2"></i>Back to Class
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Learning Statistics -->
+                <div class="card p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">📊 Learning Statistics</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm text-gray-600">Weekly Activity</span>
+                                <span class="text-sm font-semibold text-green-600">85%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-600 h-2 rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm text-gray-600">Assignment Completion</span>
+                                <span class="text-sm font-semibold text-blue-600">92%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-blue-600 h-2 rounded-full" style="width: 92%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm text-gray-600">Quiz Performance</span>
+                                <span class="text-sm font-semibold text-purple-600">87%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-purple-600 h-2 rounded-full" style="width: 87%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">🕒 Recent Activity</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center p-3 bg-green-50 rounded-lg">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs mr-3">
+                                ✓
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold text-gray-800">Completed Lesson</p>
+                                <p class="text-xs text-gray-500">2 hours ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-3 bg-blue-50 rounded-lg">
+                            <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs mr-3">
+                                🏆
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold text-gray-800">Earned Badge</p>
+                                <p class="text-xs text-gray-500">1 day ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-3 bg-purple-50 rounded-lg">
+                            <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs mr-3">
+                                📝
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold text-gray-800">Submitted Quiz</p>
+                                <p class="text-xs text-gray-500">2 days ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="card p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">📞 Contact</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-gray-400 mr-3"></i>
+                            <span class="text-sm text-gray-600">{{student.email}}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-calendar text-gray-400 mr-3"></i>
+                            <span class="text-sm text-gray-600">Joined {{student.joined_date}}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-clock text-gray-400 mr-3"></i>
+                            <span class="text-sm text-gray-600">Last seen {{student.last_active}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to cards
+            document.querySelectorAll('.card-hover').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-4px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

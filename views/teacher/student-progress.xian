@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{student.first_name}} {{student.last_name}} - Progress - FUNLEARN</title>
+    <link rel="stylesheet" href="/tailwind.css">
+    <link rel="stylesheet" href="/funlearn-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body class="bg-gray-50">
+    {{> header}}
+
+    <div class="container mx-auto px-6 py-8">
+        <!-- Navigation -->
+        <div class="flex items-center space-x-2 text-sm text-gray-500 mb-6">
+            <a href="/teacher/dashboard" class="hover:text-blue-600">Dashboard</a>
+            <i class="fas fa-chevron-right text-xs"></i>
+            <a href="/teacher/classes" class="hover:text-blue-600">Classes</a>
+            <i class="fas fa-chevron-right text-xs"></i>
+            <a href="/teacher/classes/{{classData.id}}" class="hover:text-blue-600">{{classData.class_name}}</a>
+            <i class="fas fa-chevron-right text-xs"></i>
+            <span class="text-gray-800">{{student.first_name}} {{student.last_name}} Progress</span>
+        </div>
+
+        <!-- Student Header -->
+        <div class="bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white rounded-3xl p-8 mb-8 shadow-2xl">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center text-white font-bold text-2xl mr-6 backdrop-blur-sm">
+                        {{substring student.first_name 0 1}}{{substring student.last_name 0 1}}
+                    </div>
+                    <div>
+                        <h1 class="text-4xl md:text-5xl font-bold mb-2">{{student.first_name}} {{student.last_name}}</h1>
+                        <p class="text-blue-100 text-lg mb-4">{{student.email}}</p>
+                        <div class="flex items-center space-x-6 text-sm">
+                            <div class="bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2">
+                                <span class="text-blue-200">Student ID:</span>
+                                <span class="font-bold ml-2">{{student.student_id}}</span>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2">
+                                <span class="text-blue-200">Level:</span>
+                                <span class="font-bold ml-2">{{student.progress.level}}</span>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2">
+                                <span class="text-blue-200">Total XP:</span>
+                                <span class="font-bold ml-2">{{student.progress.total_xp}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden lg:block">
+                    <div class="text-center">
+                        <div class="text-6xl mb-2">📊</div>
+                        <p class="text-blue-200 text-sm">Progress Report</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Stats -->
+        <div class="grid md:grid-cols-4 gap-6 mb-8">
+            <div class="stat-card card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="stat-label">Overall Progress</p>
+                        <p class="stat-value text-blue-600">{{student.progress.overall_progress}}%</p>
+                    </div>
+                    <div class="text-4xl opacity-20">📈</div>
+                </div>
+                <div class="mt-3">
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-blue-600 h-2 rounded-full" style="width: 85%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="stat-label">Lessons Completed</p>
+                        <p class="stat-value text-green-600">{{student.progress.lessons_completed}}/{{student.progress.total_lessons}}</p>
+                    </div>
+                    <div class="text-4xl opacity-20">✅</div>
+                </div>
+            </div>
+
+            <div class="stat-card card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="stat-label">Badges Earned</p>
+                        <p class="stat-value text-purple-600">{{student.progress.badges_earned}}</p>
+                    </div>
+                    <div class="text-4xl opacity-20">🏆</div>
+                </div>
+            </div>
+
+            <div class="stat-card card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="stat-label">Current Level</p>
+                        <p class="stat-value text-orange-600">{{student.progress.level}}</p>
+                    </div>
+                    <div class="text-4xl opacity-20">⭐</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Main Content -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Course Progress -->
+                <div class="card p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">📚 Course Progress</h2>
+                    
+                    <div class="space-y-4">
+                        {{#each student.progress.courses}}
+                        <div class="lesson-item">
+                            <div class="flex items-center flex-1">
+                                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white text-xl mr-4">
+                                    📖
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-800">{{this.title}}</h3>
+                                    <div class="flex items-center space-x-4 mt-1">
+                                        <span class="text-sm text-gray-500">{{this.progress}}% Complete</span>
+                                        <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs">
+                                            {{this.xp_earned}} XP
+                                        </span>
+                                        <span class="px-2 py-1 rounded text-xs font-semibold
+                                            {{#eq this.status 'completed'}}bg-green-100 text-green-800{{/eq}}
+                                            {{#eq this.status 'in_progress'}}bg-yellow-100 text-yellow-800{{/eq}}">
+                                            {{#eq this.status 'completed'}}Completed{{/eq}}
+                                            {{#eq this.status 'in_progress'}}In Progress{{/eq}}
+                                        </span>
+                                    </div>
+                                    <div class="mt-2">
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="bg-blue-600 h-2 rounded-full" style="width: 70%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">🕒 Recent Activity</h2>
+                    
+                    <div class="space-y-4">
+                        {{#each student.progress.recent_activity}}
+                        <div class="flex items-center p-4 bg-gray-50 rounded-lg">
+                            <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center text-white text-sm mr-4">
+                                {{#eq this.type 'lesson_completed'}}✅{{/eq}}
+                                {{#eq this.type 'badge_earned'}}🏆{{/eq}}
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-gray-800">{{this.title}}</h4>
+                                <div class="flex items-center space-x-4 mt-1">
+                                    <span class="text-sm text-gray-500">{{this.date}}</span>
+                                    <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">
+                                        +{{this.xp}} XP
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Quick Actions -->
+                <div class="card p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">⚡ Quick Actions</h3>
+                    <div class="space-y-3">
+                        <a href="/teacher/classes/{{classData.id}}/students/{{student.id}}" class="w-full btn btn-primary">
+                            <i class="fas fa-user mr-2"></i>View Full Profile
+                        </a>
+                        <button class="w-full btn btn-secondary">
+                            <i class="fas fa-envelope mr-2"></i>Send Message
+                        </button>
+                        <button class="w-full btn btn-secondary">
+                            <i class="fas fa-download mr-2"></i>Export Progress
+                        </button>
+                        <a href="/teacher/classes/{{classData.id}}" class="w-full btn btn-secondary">
+                            <i class="fas fa-arrow-left mr-2"></i>Back to Class
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Performance Summary -->
+                <div class="card p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">📊 Performance Summary</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Attendance Rate</span>
+                            <span class="font-semibold text-green-600">95%</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Average Score</span>
+                            <span class="font-semibold text-blue-600">87%</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Time Spent</span>
+                            <span class="font-semibold text-purple-600">45h</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Rank in Class</span>
+                            <span class="font-semibold text-orange-600">#2</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Next Milestones -->
+                <div class="card p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">🎯 Next Milestones</h3>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-blue-50 rounded-lg">
+                            <h4 class="font-semibold text-blue-800">Level 6</h4>
+                            <p class="text-sm text-blue-600">250 XP remaining</p>
+                            <div class="mt-2 w-full bg-blue-200 rounded-full h-2">
+                                <div class="bg-blue-600 h-2 rounded-full" style="width: 83%"></div>
+                            </div>
+                        </div>
+                        <div class="p-3 bg-green-50 rounded-lg">
+                            <h4 class="font-semibold text-green-800">Course Completion</h4>
+                            <p class="text-sm text-green-600">3 lessons remaining</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to cards
+            document.querySelectorAll('.card-hover').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-4px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

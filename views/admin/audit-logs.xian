@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Logs - FUNLEARN Admin</title>
+    <link rel="stylesheet" href="/tailwind.css">
+    <link rel="stylesheet" href="/funlearn-styles.css">
+</head>
+<body class="bg-gray-50">
+    {{> header}}
+
+    <div class="container mx-auto px-6 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">📋 Audit Logs</h1>
+            <p class="text-gray-600">System activity and user actions</p>
+        </div>
+
+        <!-- Filters -->
+        <div class="card p-4 mb-6">
+            <div class="grid md:grid-cols-4 gap-4">
+                <div>
+                    <label class="form-label">Action Type</label>
+                    <select class="form-input">
+                        <option value="">All Actions</option>
+                        <option value="user_created">User Created</option>
+                        <option value="course_created">Course Created</option>
+                        <option value="login">Login</option>
+                        <option value="logout">Logout</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label">User Role</label>
+                    <select class="form-input">
+                        <option value="">All Roles</option>
+                        <option value="admin">Admin</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="student">Student</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label">Date From</label>
+                    <input type="date" class="form-input">
+                </div>
+                <div>
+                    <label class="form-label">Date To</label>
+                    <input type="date" class="form-input">
+                </div>
+            </div>
+        </div>
+
+        <!-- Logs Table -->
+        <div class="card overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50 border-b">
+                        <tr>
+                            <th class="text-left py-4 px-6 font-semibold text-gray-700">Timestamp</th>
+                            <th class="text-left py-4 px-6 font-semibold text-gray-700">Action</th>
+                            <th class="text-left py-4 px-6 font-semibold text-gray-700">User</th>
+                            <th class="text-left py-4 px-6 font-semibold text-gray-700">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y">
+                        {{#each logs}}
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="py-4 px-6 text-sm text-gray-600">
+                                {{this.timestamp}}
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="px-3 py-1 rounded-full text-xs font-semibold
+                                    {{#eq this.action 'user_created'}}bg-green-100 text-green-800{{/eq}}
+                                    {{#eq this.action 'course_created'}}bg-blue-100 text-blue-800{{/eq}}
+                                    {{#eq this.action 'login'}}bg-purple-100 text-purple-800{{/eq}}
+                                    {{#eq this.action 'logout'}}bg-gray-100 text-gray-800{{/eq}}">
+                                    {{this.action}}
+                                </span>
+                            </td>
+                            <td class="py-4 px-6 font-medium text-gray-900">
+                                {{this.user_name}}
+                            </td>
+                            <td class="py-4 px-6 text-sm text-gray-600">
+                                <span class="px-2 py-1 rounded-full text-xs font-semibold
+                                    {{#eq this.details 'admin'}}bg-red-100 text-red-800{{/eq}}
+                                    {{#eq this.details 'teacher'}}bg-blue-100 text-blue-800{{/eq}}
+                                    {{#eq this.details 'student'}}bg-green-100 text-green-800{{/eq}}">
+                                    {{this.details}}
+                                </span>
+                            </td>
+                        </tr>
+                        {{else}}
+                        <tr>
+                            <td colspan="4" class="py-12 text-center text-gray-500">
+                                <div class="text-5xl mb-4 opacity-50">📋</div>
+                                <p>No audit logs found</p>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex items-center justify-between mt-6">
+            <div class="text-sm text-gray-600">
+                Showing {{logs.length}} entries
+            </div>
+            <div class="flex space-x-2">
+                <button class="btn btn-secondary btn-sm" disabled>← Previous</button>
+                <button class="btn btn-secondary btn-sm" disabled>Next →</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

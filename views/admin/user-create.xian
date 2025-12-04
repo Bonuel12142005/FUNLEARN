@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create User - FUNLEARN Admin</title>
+    <link rel="stylesheet" href="/tailwind.css">
+    <link rel="stylesheet" href="/funlearn-styles.css">
+</head>
+<body class="bg-gray-50">
+    {{> header}}
+
+    <div class="container mx-auto px-6 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-4xl font-bold text-gray-900 mb-2">👤 Create New User</h1>
+                    <p class="text-gray-600">Add a new user to the system</p>
+                </div>
+                <a href="/admin/users" class="btn btn-secondary">
+                    ← Back to Users
+                </a>
+            </div>
+        </div>
+
+        <!-- Error Message -->
+        {{#if error}}
+        <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-lg">
+            <div class="flex items-center">
+                <div class="text-red-500 text-xl mr-3">⚠️</div>
+                <div>
+                    <p class="text-red-800 font-semibold">Error</p>
+                    <p class="text-red-700">{{error}}</p>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+
+        <!-- Create User Form -->
+        <div class="card p-8 max-w-2xl mx-auto">
+            <form action="/admin/users" method="POST">
+                <div class="space-y-6">
+                    <!-- Personal Information -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Personal Information</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="form-label">First Name *</label>
+                                <input type="text" name="first_name" class="form-input" required>
+                            </div>
+                            <div>
+                                <label class="form-label">Last Name *</label>
+                                <input type="text" name="last_name" class="form-input" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Information -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Account Information</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="form-label">Username *</label>
+                                <input type="text" name="username" class="form-input" required>
+                                <p class="text-sm text-gray-500 mt-1">Used for login</p>
+                            </div>
+                            <div>
+                                <label class="form-label">Email *</label>
+                                <input type="email" name="email" class="form-input" required>
+                            </div>
+                            <div>
+                                <label class="form-label">Password *</label>
+                                <input type="password" name="password" class="form-input" required minlength="6">
+                                <p class="text-sm text-gray-500 mt-1">Minimum 6 characters</p>
+                            </div>
+                            <div>
+                                <label class="form-label">Role *</label>
+                                <select name="role" class="form-input" required>
+                                    <option value="">Select Role</option>
+                                    <option value="student">Student</option>
+                                    <option value="teacher">Teacher</option>
+                                    <option value="admin">Administrator</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="flex items-center justify-end space-x-4 pt-6 border-t">
+                        <a href="/admin/users" class="btn btn-secondary">
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            ✅ Create User
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

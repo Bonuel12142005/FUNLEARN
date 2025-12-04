@@ -1,0 +1,220 @@
+<header class="glass sticky top-0 z-50 border-b border-white/20">
+    <nav class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <!-- Logo and Navigation -->
+            <div class="flex items-center space-x-8">
+                <a href="/" class="flex items-center space-x-2 group">
+                    <div class="text-3xl group-hover:scale-110 transition-transform duration-300">🎓</div>
+                    <span class="text-2xl font-bold text-gradient">FUNLEARN</span>
+                </a>
+                
+                {{#if user}}
+                    <!-- Student Navigation -->
+                    {{#eq user.role "student"}}
+                    <div class="hidden lg:flex space-x-1">
+                        <a href="/student/dashboard" class="nav-link">
+                            <span class="mr-1">📊</span> Dashboard
+                        </a>
+                        <a href="/student/courses" class="nav-link">
+                            <span class="mr-1">📚</span> Courses
+                        </a>
+                        <a href="/student/leaderboard" class="nav-link">
+                            <span class="mr-1">🏆</span> Leaderboard
+                        </a>
+                        <a href="/student/badges" class="nav-link">
+                            <span class="mr-1">🎖️</span> Badges
+                        </a>
+                    </div>
+                    {{/eq}}
+                    
+                    <!-- Teacher Navigation -->
+                    {{#eq user.role "teacher"}}
+                    <div class="hidden lg:flex space-x-1">
+                        <a href="/teacher/dashboard" class="nav-link">
+                            <span class="mr-1">📊</span> Dashboard
+                        </a>
+                        <a href="/teacher/courses" class="nav-link">
+                            <span class="mr-1">📚</span> My Courses
+                        </a>
+                        <a href="/teacher/classes" class="nav-link">
+                            <span class="mr-1">👥</span> My Classes
+                        </a>
+                    </div>
+                    {{/eq}}
+                    
+                    <!-- Admin Navigation -->
+                    {{#eq user.role "admin"}}
+                    <div class="hidden lg:flex space-x-1">
+                        <a href="/admin/dashboard" class="nav-link">
+                            <span class="mr-1">📊</span> Dashboard
+                        </a>
+                        <a href="/admin/users" class="nav-link">
+                            <span class="mr-1">👥</span> Users
+                        </a>
+                        <a href="/admin/courses" class="nav-link">
+                            <span class="mr-1">📚</span> Courses
+                        </a>
+                        <a href="/admin/analytics" class="nav-link">
+                            <span class="mr-1">📈</span> Analytics
+                        </a>
+                    </div>
+                    {{/eq}}
+                {{/if}}
+            </div>
+            
+            <!-- User Info and Actions -->
+            <div class="flex items-center space-x-4">
+                {{#if user}}
+                    <!-- Student XP Display -->
+                    {{#eq user.role "student"}}
+                    <div class="hidden md:flex items-center space-x-3">
+                        <div class="xp-badge shadow-sm">
+                            ⭐ {{user.xp}} XP
+                        </div>
+                        <div class="level-badge shadow-sm">
+                            🎯 Level {{user.level}}
+                        </div>
+                    </div>
+                    {{/eq}}
+                    
+                    <!-- Role Badge -->
+                    <div class="hidden sm:block">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold capitalize">
+                            👤 {{user.role}}
+                        </span>
+                    </div>
+                    
+                    <!-- User Menu -->
+                    <div class="relative group">
+                        <button class="flex items-center space-x-2 px-4 py-2 rounded-xl hover:bg-white/50 transition-all duration-200 group">
+                            <div class="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                                {{substring user.first_name 0 1}}
+                            </div>
+                            <span class="hidden sm:block font-semibold text-gray-700">{{user.first_name}}</span>
+                            <svg class="w-4 h-4 text-gray-500 group-hover:text-gray-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div class="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform group-hover:translate-y-0 translate-y-2">
+                            <div class="p-4 border-b border-gray-100">
+                                <div class="font-semibold text-gray-800">{{user.first_name}} {{user.last_name}}</div>
+                                <div class="text-sm text-gray-500 capitalize">{{user.role}}</div>
+                                {{#eq user.role "student"}}
+                                <div class="flex items-center space-x-2 mt-2">
+                                    <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">⭐ {{user.xp}} XP</span>
+                                    <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">🎯 Level {{user.level}}</span>
+                                </div>
+                                {{/eq}}
+                            </div>
+                            
+                            <div class="py-2">
+                                <a href="/profile" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors">
+                                    <span class="mr-3">👤</span> Profile
+                                </a>
+                                <a href="/settings" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors">
+                                    <span class="mr-3">⚙️</span> Settings
+                                </a>
+                                {{#eq user.role "student"}}
+                                <a href="/student/badges" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors">
+                                    <span class="mr-3">🏆</span> My Badges
+                                </a>
+                                {{/eq}}
+                            </div>
+                            
+                            <div class="border-t border-gray-100 py-2">
+                                <a href="/logout" class="flex items-center px-4 py-2 text-red-600 hover:bg-red-50 transition-colors">
+                                    <span class="mr-3">🚪</span> Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {{else}}
+                    <!-- Guest Actions -->
+                    <div class="flex items-center space-x-3">
+                        <a href="/login" class="nav-link">Login</a>
+                        <a href="/register" class="btn btn-primary shadow-sm">Get Started</a>
+                    </div>
+                {{/if}}
+                
+                <!-- Mobile Menu Button -->
+                <button class="lg:hidden p-2 rounded-lg hover:bg-white/50 transition-colors" onclick="toggleMobileMenu()">
+                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="lg:hidden hidden mt-4 pb-4 border-t border-white/20">
+            {{#if user}}
+                {{#eq user.role "student"}}
+                <div class="space-y-2 mt-4">
+                    <a href="/student/dashboard" class="block px-4 py-2 text-gray-700 hover:bg-white/50 rounded-lg transition-colors">
+                        📊 Dashboard
+                    </a>
+                    <a href="/student/courses" class="block px-4 py-2 text-gray-700 hover:bg-white/50 rounded-lg transition-colors">
+                        📚 Courses
+                    </a>
+                    <a href="/student/leaderboard" class="block px-4 py-2 text-gray-700 hover:bg-white/50 rounded-lg transition-colors">
+                        🏆 Leaderboard
+                    </a>
+                    <a href="/student/badges" class="block px-4 py-2 text-gray-700 hover:bg-white/50 rounded-lg transition-colors">
+                        🎖️ Badges
+                    </a>
+                </div>
+                {{/eq}}
+                
+                {{#eq user.role "teacher"}}
+                <div class="space-y-2 mt-4">
+                    <a href="/teacher/dashboard" class="block px-4 py-2 text-gray-700 hover:bg-white/50 rounded-lg transition-colors">
+                        📊 Dashboard
+                    </a>
+                    <a href="/teacher/courses" class="block px-4 py-2 text-gray-700 hover:bg-white/50 rounded-lg transition-colors">
+                        📚 My Courses
+                    </a>
+                    <a href="/teacher/classes" class="block px-4 py-2 text-gray-700 hover:bg-white/50 rounded-lg transition-colors">
+                        👥 My Classes
+                    </a>
+                </div>
+                {{/eq}}
+                
+                {{#eq user.role "admin"}}
+                <div class="space-y-2 mt-4">
+                    <a href="/admin/dashboard" class="block px-4 py-2 text-gray-700 hover:bg-white/50 rounded-lg transition-colors">
+                        📊 Dashboard
+                    </a>
+                    <a href="/admin/users" class="block px-4 py-2 text-gray-700 hover:bg-white/50 rounded-lg transition-colors">
+                        👥 Users
+                    </a>
+                    <a href="/admin/courses" class="block px-4 py-2 text-gray-700 hover:bg-white/50 rounded-lg transition-colors">
+                        📚 Courses
+                    </a>
+                    <a href="/admin/analytics" class="block px-4 py-2 text-gray-700 hover:bg-white/50 rounded-lg transition-colors">
+                        📈 Analytics
+                    </a>
+                </div>
+                {{/eq}}
+            {{/if}}
+        </div>
+    </nav>
+</header>
+
+<script>
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    menu.classList.toggle('hidden');
+}
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', function(event) {
+    const menu = document.getElementById('mobileMenu');
+    const button = event.target.closest('button');
+    
+    if (!button && !menu.contains(event.target)) {
+        menu.classList.add('hidden');
+    }
+});
+</script>

@@ -1,0 +1,59 @@
+{
+  "name": "funlearn",
+  "version": "1.0.0",
+  "description": "Interactive Learning Platform with Gamification",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run build:css:watch\" \"npm run xian\"",
+    "start": "npm run build:css && node index.js",
+    "xian-start": "npm run build:css && node index.js",
+    "xian": "nodemon index.js",
+    "build": "npm run build:css",
+    "build:css": "postcss ./src/styles/input.css -o ./public/tailwind.css --env production",
+    "build:css:watch": "postcss ./src/styles/input.css -o ./public/tailwind.css --watch",
+    "migrate": "node migrate.js",
+    "funlearn:migrate": "node funlearn-migrate.js",
+    "funlearn:setup": "node setup-funlearn.js",
+    "create:model": "node create.js model",
+    "create:controller": "node create.js controller",
+    "postinstall": "npm run build:css"
+  },
+  "keywords": [
+    "education",
+    "learning",
+    "gamification",
+    "interactive",
+    "platform",
+    "nodejs",
+    "express",
+    "tailwindcss"
+  ],
+  "author": "FUNLEARN Team",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "express": "^4.19.2",
+    "express-session": "^1.17.3",
+    "hbs": "^4.2.0",
+    "inquirer": "^9.2.15",
+    "mysql2": "^3.9.2",
+    "sequelize": "^6.37.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.10",
+    "autoprefixer": "^10.4.16",
+    "concurrently": "^8.2.2",
+    "cssnano": "^6.0.1",
+    "nodemon": "^3.0.2",
+    "postcss": "^8.4.32",
+    "postcss-cli": "^11.0.1",
+    "tailwindcss": "^3.3.6"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}

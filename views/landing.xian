@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUNLEARN - Transform Your Learning Journey</title>
+    <meta name="description" content="Revolutionary interactive learning platform with gamification, AI-powered content, and real-time progress tracking. Join thousands of learners worldwide.">
+    <link rel="stylesheet" href="/tailwind.css">
+    <link rel="stylesheet" href="/funlearn-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body class="overflow-x-hidden">
+    <!-- Background Elements -->
+    <div class="fixed inset-0 -z-10">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50"></div>
+        <div class="absolute top-0 left-0 w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+        <div class="absolute top-0 right-0 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div class="absolute bottom-0 left-1/2 w-96 h-96 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+    </div>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-lg border-b border-white/20 shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white text-xl font-bold shadow-lg">
+                        F
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                            FUNLEARN
+                        </h1>
+                        <p class="text-xs text-gray-500 -mt-1">Interactive Learning</p>
+                    </div>
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Features</a>
+                    <a href="#courses" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Courses</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Pricing</a>
+                    <a href="#about" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">About</a>
+                </div>
+                
+                <!-- CTA Buttons -->
+                <div class="flex items-center space-x-4">
+                    <a href="/login" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">
+                        Sign In
+                    </a>
+                    <a href="/register" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300">
+                        Get Started Free
+                    </a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars text-gray-600"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="md:hidden hidden mt-4 pb-4 border-t border-gray-200">
+                <div class="flex flex-col space-y-4 pt-4">
+                    <a href="#features" class="text-gray-600 hover:text-blue-600 transition-colors">Features</a>
+                    <a href="#courses" class="text-gray-600 hover:text-blue-600 transition-colors">Courses</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-blue-600 transition-colors">Pricing</a>
+                    <a href="#about" class="text-gray-600 hover:text-blue-600 transition-colors">About</a>
+                    <div class="flex flex-col space-y-2 pt-4 border-t border-gray-200">
+                        <a href="/login" class="text-center py-2 text-gray-600">Sign In</a>
+                        <a href="/register" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 rounded-lg text-center font-semibold">Get Started Free</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 relative overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <!-- Hero Content -->
+                    <div class="text-center lg:text-left">
+                        <!-- Badge -->
+                        <div class="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold mb-6">
+                            <i class="fas fa-rocket mr-2"></i>
+                            #1 Interactive Learning Platform
+                        </div>
+                        
+                        <!-- Main Heading -->
+                        <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+                            Transform Your
+                            <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                                Learning Journey
+                            </span>
+                        </h1>
+                        
+                        <!-- Subtitle -->
+                        <p class="text-xl md:text-2xl text-gray-600 mb-8 leading-relaxed">
+                            Experience the future of education with our revolutionary platform featuring 
+                            <strong class="text-blue-600">gamification</strong>, 
+                            <strong class="text-purple-600">AI-powered content</strong>, and 
+                            <strong class="text-green-600">real-time analytics</strong>.
+                        </p>
+                        
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                            <a href="/register" class="group relative bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 overflow-hidden">
+                                <span class="relative z-10 flex items-center justify-center">
+                                    <i class="fas fa-play mr-2"></i>
+                                    Start Learning Free
+                                </span>
+                                <div class="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            </a>
+                            <a href="/login" class="flex items-center justify-center px-8 py-4 border-2 border-gray-300 text-gray-700 rounded-2xl font-bold text-lg hover:border-blue-500 hover:text-blue-600 transition-all duration-300">
+                                <i class="fas fa-sign-in-alt mr-2"></i>
+                                Try Demo
+                            </a>
+                        </div>
+                        
+                        <!-- Social Proof -->
+                        <div class="flex items-center justify-center lg:justify-start space-x-6 text-sm text-gray-500">
+                            <div class="flex items-center">
+                                <i class="fas fa-users mr-2 text-blue-500"></i>
+                                <span>1,250+ Students</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-star mr-2 text-yellow-500"></i>
+                                <span>4.9/5 Rating</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-graduation-cap mr-2 text-green-500"></i>
+                                <span>78+ Courses</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hero Visual -->
+                    <div class="relative">
+                        <!-- Main Dashboard Mockup -->
+                        <div class="relative bg-white rounded-3xl shadow-2xl p-6 transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                            <div class="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-6 text-white mb-4">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div>
+                                        <h3 class="text-xl font-bold">Welcome back, Alex! 👋</h3>
+                                        <p class="text-blue-100">Ready to continue learning?</p>
+                                    </div>
+                                    <div class="text-3xl">🎓</div>
+                                </div>
+                                <div class="bg-white/20 rounded-xl p-3">
+                                    <div class="flex justify-between text-sm mb-2">
+                                        <span>Progress to Level 5</span>
+                                        <span>850/1000 XP</span>
+                                    </div>
+                                    <div class="bg-white/20 rounded-full h-2">
+                                        <div class="bg-white rounded-full h-2" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Stats Cards -->
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div class="bg-blue-50 p-4 rounded-xl">
+                                    <div class="text-2xl font-bold text-blue-600">850</div>
+                                    <div class="text-sm text-gray-600">Total XP</div>
+                                </div>
+                                <div class="bg-purple-50 p-4 rounded-xl">
+                                    <div class="text-2xl font-bold text-purple-600">12</div>
+                                    <div class="text-sm text-gray-600">Badges</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Course Progress -->
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center text-white text-sm">📚</div>
+                                        <div>
+                                            <div class="font-semibold text-sm">Mathematics</div>
+                                            <div class="text-xs text-gray-500">75% complete</div>
+                                        </div>
+                                    </div>
+                                    <div class="w-16 h-2 bg-gray-200 rounded-full">
+                                        <div class="w-3/4 h-2 bg-blue-500 rounded-full"></div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center text-white text-sm">🔬</div>
+                                        <div>
+                                            <div class="font-semibold text-sm">Science</div>
+                                            <div class="text-xs text-gray-500">60% complete</div>
+                                        </div>
+                                    </div>
+                                    <div class="w-16 h-2 bg-gray-200 rounded-full">
+                                        <div class="w-3/5 h-2 bg-green-500 rounded-full"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Floating Elements -->
+                        <div class="absolute -top-4 -right-4 bg-yellow-400 text-yellow-900 px-3 py-2 rounded-xl font-bold text-sm shadow-lg animate-bounce">
+                            🏆 Level Up!
+                        </div>
+                        <div class="absolute -bottom-4 -left-4 bg-green-400 text-green-900 px-3 py-2 rounded-xl font-bold text-sm shadow-lg animate-pulse">
+                            +50 XP Earned!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Demo Accounts Section -->
+        <div class="container mx-auto px-6 mt-16">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white/60 backdrop-blur-lg rounded-3xl p-8 border border-white/20 shadow-xl">
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">🎮 Try Our Demo Accounts</h3>
+                        <p class="text-gray-600">Experience different user roles instantly</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="group bg-gradient-to-br from-red-50 to-red-100 p-6 rounded-2xl border border-red-200 hover:shadow-lg transition-all duration-300 cursor-pointer" onclick="fillLogin('admin', 'admin123')">
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-red-500 rounded-2xl flex items-center justify-center text-white text-2xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                    👨‍💼
+                                </div>
+                                <h4 class="font-bold text-red-700 mb-2">Admin Access</h4>
+                                <p class="text-sm text-gray-600 mb-3">Full system control & analytics</p>
+                                <div class="bg-white/50 rounded-lg p-2 text-xs font-mono">
+                                    <div>admin / admin123</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="group bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-2xl border border-purple-200 hover:shadow-lg transition-all duration-300 cursor-pointer" onclick="fillLogin('teacher1', 'teacher123')">
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-purple-500 rounded-2xl flex items-center justify-center text-white text-2xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                    👨‍🏫
+                                </div>
+                                <h4 class="font-bold text-purple-700 mb-2">Teacher Portal</h4>
+                                <p class="text-sm text-gray-600 mb-3">Create courses & manage classes</p>
+                                <div class="bg-white/50 rounded-lg p-2 text-xs font-mono">
+                                    <div>teacher1 / teacher123</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="group bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl border border-blue-200 hover:shadow-lg transition-all duration-300 cursor-pointer" onclick="fillLogin('student1', 'student123')">
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-blue-500 rounded-2xl flex items-center justify-center text-white text-2xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                    👨‍🎓
+                                </div>
+                                <h4 class="font-bold text-blue-700 mb-2">Student Experience</h4>
+                                <p class="text-sm text-gray-600 mb-3">Learn, earn XP & compete</p>
+                                <div class="bg-white/50 rounded-lg p-2 text-xs font-mono">
+                                    <div>student1 / student123</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-6">
+                        <p class="text-sm text-gray-500">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            Click any demo account above to auto-fill login credentials
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white/50 backdrop-blur-sm">
+        <div class="container mx-auto px-6">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold mb-6">
+                    <i class="fas fa-star mr-2"></i>
+                    Why Choose FUNLEARN?
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                    Revolutionary Learning
+                    <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        Experience
+                    </span>
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Discover the cutting-edge features that make learning engaging, effective, and enjoyable for students of all ages
+                </p>
+            </div>
+            
+            <!-- Features Grid -->
+            <div class="grid lg:grid-cols-3 gap-8 mb-16">
+                <!-- Gamification Feature -->
+                <div class="group relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-blue-200">
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative z-10">
+                        <!-- Icon -->
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-white text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                            🎮
+                        </div>
+                        
+                        <!-- Content -->
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Gamification System</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            Transform learning into an adventure with XP points, achievement badges, level progression, and competitive leaderboards that keep you motivated.
+                        </p>
+                        
+                        <!-- Feature Tags -->
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-semibold">⭐ XP System</span>
+                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold">🏆 Badges</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">📊 Leaderboards</span>
+                        </div>
+                        
+                        <!-- Demo Stats -->
+                        <div class="bg-gray-50 rounded-xl p-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm text-gray-600">Your Progress</span>
+                                <span class="text-sm font-semibold text-blue-600">Level 4</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-2">
+                                <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-full h-2 transition-all duration-1000" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Interactive Content Feature -->
+                <div class="group relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-green-200">
+                    <div class="absolute inset-0 bg-gradient-to-br from-green-50 to-blue-50 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative z-10">
+                        <!-- Icon -->
+                        <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-blue-600 rounded-2xl flex items-center justify-center text-white text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                            📚
+                        </div>
+                        
+                        <!-- Content -->
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Interactive Content</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            Engage with rich multimedia content including HD videos, interactive quizzes, virtual simulations, and educational mini-games.
+                        </p>
+                        
+                        <!-- Feature Tags -->
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold">🎥 Videos</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">📝 Quizzes</span>
+                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold">🎯 Games</span>
+                        </div>
+                        
+                        <!-- Content Types -->
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600">Video Lessons</span>
+                                <span class="font-semibold text-green-600">450+</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600">Interactive Quizzes</span>
+                                <span class="font-semibold text-green-600">1,200+</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600">Simulations</span>
+                                <span class="font-semibold text-green-600">85+</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Analytics Feature -->
+                <div class="group relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-purple-200">
+                    <div class="absolute inset-0 bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative z-10">
+                        <!-- Icon -->
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center text-white text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                            📊
+                        </div>
+                        
+                        <!-- Content -->
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Smart Analytics</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            Get detailed insights into your learning patterns with AI-powered analytics, personalized recommendations, and progress tracking.
+                        </p>
+                        
+                        <!-- Feature Tags -->
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold">🤖 AI Insights</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">📈 Progress</span>
+                        </div>
+                        
+                        <!-- Mini Chart -->
+                        <div class="bg-gray-50 rounded-xl p-4">
+                            <div class="flex items-end space-x-2 h-16">
+                                <div class="bg-purple-400 rounded-t w-4" style="height: 40%"></div>
+                                <div class="bg-purple-500 rounded-t w-4" style="height: 60%"></div>
+                                <div class="bg-purple-600 rounded-t w-4" style="height: 80%"></div>
+                                <div class="bg-purple-700 rounded-t w-4" style="height: 100%"></div>
+                                <div class="bg-purple-500 rounded-t w-4" style="height: 70%"></div>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2 text-center">Weekly Learning Progress</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional Features Row -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center p-6 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-xl mx-auto mb-4">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-900 mb-2">Mobile Ready</h4>
+                    <p class="text-sm text-gray-600">Learn anywhere, anytime on any device</p>
+                </div>
+                
+                <div class="text-center p-6 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-green-600 text-xl mx-auto mb-4">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-900 mb-2">Collaborative</h4>
+                    <p class="text-sm text-gray-600">Study groups and peer learning</p>
+                </div>
+                
+                <div class="text-center p-6 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 text-xl mx-auto mb-4">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-900 mb-2">Certified</h4>
+                    <p class="text-sm text-gray-600">Earn recognized certificates</p>
+                </div>
+                
+                <div class="text-center p-6 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center text-yellow-600 text-xl mx-auto mb-4">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-900 mb-2">24/7 Access</h4>
+                    <p class="text-sm text-gray-600">Round-the-clock learning support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="bg-gradient-primary py-20 text-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h3 class="text-4xl font-bold mb-4">Join Our Learning Community</h3>
+                <p class="text-xl text-blue-100">Thousands of learners are already growing with FUNLEARN</p>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="text-center group">
+                    <div class="text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">1,250+</div>
+                    <div class="text-blue-200 text-lg">Active Students</div>
+                    <div class="text-blue-300 text-sm">Learning daily</div>
+                </div>
+                <div class="text-center group">
+                    <div class="text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">78+</div>
+                    <div class="text-blue-200 text-lg">Courses Available</div>
+                    <div class="text-blue-300 text-sm">Across all subjects</div>
+                </div>
+                <div class="text-center group">
+                    <div class="text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">45+</div>
+                    <div class="text-blue-200 text-lg">Expert Teachers</div>
+                    <div class="text-blue-300 text-sm">Creating content</div>
+                </div>
+                <div class="text-center group">
+                    <div class="text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">15K+</div>
+                    <div class="text-blue-200 text-lg">Lessons Completed</div>
+                    <div class="text-blue-300 text-sm">This month</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="container mx-auto px-6 py-20 text-center">
+        <div class="max-w-3xl mx-auto">
+            <h3 class="text-4xl font-bold text-gray-800 mb-6">Ready to Transform Your Learning?</h3>
+            <p class="text-xl text-gray-600 mb-8">Join thousands of students who are already experiencing the future of education</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="/register" class="btn btn-primary btn-lg shadow-glow px-12 py-4 text-xl">
+                    🎯 Start Your Journey
+                </a>
+                <a href="/login" class="btn btn-secondary btn-lg px-12 py-4 text-xl">
+                    🔑 Access Demo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <div class="flex items-center justify-center space-x-2 mb-4">
+                    <div class="text-3xl">🎓</div>
+                    <h4 class="text-2xl font-bold">FUNLEARN</h4>
+                </div>
+                <p class="text-gray-400 mb-6">Transforming education through interactive learning and gamification</p>
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Support</a>
+                </div>
+                <p class="text-gray-500">&copy; 2025 FUNLEARN. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Auto-fill login credentials
+        function fillLogin(username, password) {
+            // Store credentials in sessionStorage for login page
+            sessionStorage.setItem('demoUsername', username);
+            sessionStorage.setItem('demoPassword', password);
+            
+            // Redirect to login page
+            window.location.href = '/login';
+        }
+
+        // Smooth scrolling for anchor links
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Intersection Observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements for scroll animations
+            document.querySelectorAll('section, .group').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                observer.observe(el);
+            });
+
+            // Animate progress bars
+            setTimeout(() => {
+                document.querySelectorAll('[style*="width:"]').forEach(bar => {
+                    if (bar.classList.contains('bg-gradient-to-r') || bar.classList.contains('bg-blue-500') || bar.classList.contains('bg-white')) {
+                        const width = bar.style.width;
+                        bar.style.width = '0%';
+                        setTimeout(() => {
+                            bar.style.transition = 'width 2s ease-out';
+                            bar.style.width = width;
+                        }, 500);
+                    }
+                });
+            }, 1000);
+
+            // Parallax effect for background elements
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const parallax = document.querySelectorAll('.animate-blob');
+                const speed = 0.5;
+
+                parallax.forEach(element => {
+                    const yPos = -(scrolled * speed);
+                    element.style.transform = `translate3d(0, ${yPos}px, 0)`;
+                });
+            });
+
+            // Add loading animation to CTA buttons
+            document.querySelectorAll('a[href="/register"], a[href="/login"]').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    if (this.href.includes('/register') || this.href.includes('/login')) {
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
+                        this.style.pointerEvents = 'none';
+                        
+                        // Reset after a short delay if navigation fails
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                            this.style.pointerEvents = 'auto';
+                        }, 3000);
+                    }
+                });
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('mobileMenu');
+            const button = event.target.closest('button');
+            
+            if (menu && !button && !menu.contains(event.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+
+        // Add hover effects to demo cards
+        document.querySelectorAll('[onclick^="fillLogin"]').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

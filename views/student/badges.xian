@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Badges - FUNLEARN</title>
+    <link rel="stylesheet" href="/tailwind.css">
+</head>
+<body class="bg-gray-50">
+    {{> header}}
+
+    <div class="container mx-auto px-6 py-8">
+        <h1 class="text-4xl font-bold mb-8">🏆 My Badges</h1>
+
+        <!-- Earned Badges -->
+        <div class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">Earned Badges ({{earnedBadges.length}})</h2>
+            {{#if earnedBadges.length}}
+            <div class="grid md:grid-cols-4 gap-6">
+                {{#each earnedBadges}}
+                <div class="bg-white rounded-lg shadow p-6 text-center hover:shadow-xl transition">
+                    <div class="text-6xl mb-4">🏆</div>
+                    <h3 class="text-xl font-bold mb-2">{{this.name}}</h3>
+                    <p class="text-sm text-gray-600 mb-3">{{this.description}}</p>
+                    <div class="flex items-center justify-center space-x-2">
+                        <span class="px-3 py-1 bg-{{#eq this.rarity "common"}}gray{{/eq}}{{#eq this.rarity "rare"}}blue{{/eq}}{{#eq this.rarity "epic"}}purple{{/eq}}{{#eq this.rarity "legendary"}}yellow{{/eq}}-100 text-{{#eq this.rarity "common"}}gray{{/eq}}{{#eq this.rarity "rare"}}blue{{/eq}}{{#eq this.rarity "epic"}}purple{{/eq}}{{#eq this.rarity "legendary"}}yellow{{/eq}}-800 text-xs rounded-full">
+                            {{this.rarity}}
+                        </span>
+                        <span class="text-yellow-600 font-semibold text-sm">+{{this.xp_reward}} XP</span>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+            {{else}}
+            <div class="bg-white rounded-lg shadow p-12 text-center">
+                <div class="text-6xl mb-4">🎯</div>
+                <p class="text-gray-600">You haven't earned any badges yet. Keep learning to unlock achievements!</p>
+            </div>
+            {{/if}}
+        </div>
+
+        <!-- All Available Badges -->
+        <div>
+            <h2 class="text-2xl font-bold mb-6">All Badges</h2>
+            <div class="grid md:grid-cols-4 gap-6">
+                {{#each allBadges}}
+                <div class="bg-white rounded-lg shadow p-6 text-center {{#unless this.earned}}opacity-50{{/unless}}">
+                    <div class="text-6xl mb-4">{{#if this.earned}}🏆{{else}}🔒{{/if}}</div>
+                    <h3 class="text-xl font-bold mb-2">{{this.name}}</h3>
+                    <p class="text-sm text-gray-600 mb-3">{{this.description}}</p>
+                    <div class="flex items-center justify-center space-x-2">
+                        <span class="px-3 py-1 bg-{{#eq this.rarity "common"}}gray{{/eq}}{{#eq this.rarity "rare"}}blue{{/eq}}{{#eq this.rarity "epic"}}purple{{/eq}}{{#eq this.rarity "legendary"}}yellow{{/eq}}-100 text-{{#eq this.rarity "common"}}gray{{/eq}}{{#eq this.rarity "rare"}}blue{{/eq}}{{#eq this.rarity "epic"}}purple{{/eq}}{{#eq this.rarity "legendary"}}yellow{{/eq}}-800 text-xs rounded-full">
+                            {{this.rarity}}
+                        </span>
+                        <span class="text-yellow-600 font-semibold text-sm">+{{this.xp_reward}} XP</span>
+                    </div>
+                    {{#unless this.earned}}
+                    <p class="text-xs text-gray-500 mt-3">Not earned yet</p>
+                    {{/unless}}
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

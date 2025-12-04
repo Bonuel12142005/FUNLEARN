@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - FUNLEARN Admin</title>
+    <link rel="stylesheet" href="/tailwind.css">
+    <link rel="stylesheet" href="/funlearn-styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50">
+    {{> header}}
+
+    <div class="container mx-auto px-6 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">📊 Analytics Dashboard</h1>
+            <p class="text-gray-600">System-wide statistics and insights</p>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="stat-card">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="stat-label">Total Students</div>
+                    <div class="text-3xl">👨‍🎓</div>
+                </div>
+                <div class="stat-value text-blue-600">{{stats.totalStudents}}</div>
+                <div class="text-sm text-gray-500 mt-2">Active learners</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="stat-label">Total Teachers</div>
+                    <div class="text-3xl">👨‍🏫</div>
+                </div>
+                <div class="stat-value text-purple-600">{{stats.totalTeachers}}</div>
+                <div class="text-sm text-gray-500 mt-2">Course creators</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="stat-label">Total Courses</div>
+                    <div class="text-3xl">📚</div>
+                </div>
+                <div class="stat-value text-green-600">{{stats.totalCourses}}</div>
+                <div class="text-sm text-gray-500 mt-2">Published courses</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="stat-label">Completions</div>
+                    <div class="text-3xl">✅</div>
+                </div>
+                <div class="stat-value text-yellow-600">{{stats.totalCompletions}}</div>
+                <div class="text-sm text-gray-500 mt-2">Lessons completed</div>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-8 mb-8">
+            <!-- Course Statistics -->
+            <div class="card p-6">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">📚 Course Statistics</h3>
+                <canvas id="courseChart" height="250"></canvas>
+            </div>
+
+            <!-- User Growth -->
+            <div class="card p-6">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">📈 User Growth</h3>
+                <canvas id="userChart" height="250"></canvas>
+            </div>
+        </div>
+
+        <!-- Popular Courses -->
+        <div class="card p-6 mb-8">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">🔥 Popular Courses</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b">
+                            <th class="text-left py-3 px-4">Course</th>
+                            <th class="text-left py-3 px-4">Category</th>
+                            <th class="text-left py-3 px-4">Difficulty</th>
+                            <th class="text-right py-3 px-4">Students</th>
+                            <th class="text-right py-3 px-4">XP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each popularCourses}}
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="py-3 px-4 font-semibold">{{this.title}}</td>
+                            <td class="py-3 px-4">{{this.category}}</td>
+                            <td class="py-3 px-4">
+                                <span class="px-2 py-1 rounded-full text-xs font-semibold
+                                    {{#eq this.difficulty_level 'beginner'}}bg-green-100 text-green-800{{/eq}}
+                                    {{#eq this.difficulty_level 'intermediate'}}bg-yellow-100 text-yellow-800{{/eq}}
+                                    {{#eq this.difficulty_level 'advanced'}}bg-red-100 text-red-800{{/eq}}">
+                                    {{this.difficulty_level}}
+                                </span>
+                            </td>
+                            <td class="py-3 px-4 text-right">{{this.student_count}}</td>
+                            <td class="py-3 px-4 text-right font-semibold">{{this.total_xp}}</td>
+                        </tr>
+                        {{else}}
+                        <tr>
+                            <td colspan="5" class="py-8 text-center text-gray-500">No course data available</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Top Students -->
+        <div class="card p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">🏆 Top Students</h3>
+            <div class="space-y-3">
+                {{#each topStudents}}
+                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                            {{substring this.first_name 0 1}}{{substring this.last_name 0 1}}
+                        </div>
+                        <div>
+                            <div class="font-semibold text-gray-900">{{this.first_name}} {{this.last_name}}</div>
+                            <div class="text-sm text-gray-500">Level {{this.level}}</div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold text-blue-600">{{this.xp}} XP</div>
+                        <div class="text-sm text-gray-500">{{this.completed_lessons}} lessons</div>
+                    </div>
+                </div>
+                {{else}}
+                <div class="text-center py-8 text-gray-500">No student data available</div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Course Statistics Chart
+        const courseCtx = document.getElementById('courseChart').getContext('2d');
+        new Chart(courseCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Beginner', 'Intermediate', 'Advanced'],
+                datasets: [{
+                    data: [
+                        {{stats.beginnerCourses}},
+                        {{stats.intermediateCourses}},
+                        {{stats.advancedCourses}}
+                    ],
+                    backgroundColor: ['#10b981', '#f59e0b', '#ef4444']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // User Growth Chart
+        const userCtx = document.getElementById('userChart').getContext('2d');
+        new Chart(userCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Students',
+                    data: [10, 25, 45, 70, 95, {{stats.totalStudents}}],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    tension: 0.4
+                }, {
+                    label: 'Teachers',
+                    data: [2, 3, 5, 7, 9, {{stats.totalTeachers}}],
+                    borderColor: '#8b5cf6',
+                    backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

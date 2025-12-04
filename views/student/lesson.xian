@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{lesson.title}} - FUNLEARN</title>
+    <link rel="stylesheet" href="/tailwind.css">
+</head>
+<body class="bg-gray-50">
+    {{> header}}
+
+    <div class="container mx-auto px-6 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Lesson Header -->
+            <div class="bg-white rounded-lg shadow p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h1 class="text-3xl font-bold">{{lesson.title}}</h1>
+                    <span class="px-4 py-2 bg-yellow-100 text-yellow-800 rounded-full font-semibold">
+                        ⭐ {{lesson.xp_reward}} XP
+                    </span>
+                </div>
+                <div class="flex items-center space-x-4 text-sm text-gray-600">
+                    <span>📚 {{lesson.module.title}}</span>
+                    <span>•</span>
+                    <span>{{lesson.content_type}}</span>
+                    {{#if lesson.duration}}
+                    <span>•</span>
+                    <span>⏱️ {{lesson.duration}} min</span>
+                    {{/if}}
+                </div>
+            </div>
+
+            <!-- Lesson Content -->
+            <div class="bg-white rounded-lg shadow p-8 mb-6">
+                {{#eq lesson.content_type "video"}}
+                <div class="aspect-video bg-gray-900 rounded-lg mb-6 flex items-center justify-center">
+                    {{#if lesson.video_url}}
+                    <iframe src="{{lesson.video_url}}" 
+                        class="w-full h-full rounded-lg" 
+                        allowfullscreen></iframe>
+                    {{else}}
+                    <div class="text-white text-center">
+                        <div class="text-6xl mb-4">🎥</div>
+                        <p>Video content will be displayed here</p>
+                    </div>
+                    {{/if}}
+                </div>
+                {{/eq}}
+
+                {{#eq lesson.content_type "text"}}
+                <div class="prose max-w-none">
+                    {{{lesson.content}}}
+                </div>
+                {{/eq}}
+
+                {{#eq lesson.content_type "quiz"}}
+                <div class="text-center py-12">
+                    <div class="text-6xl mb-4">📝</div>
+                    <h2 class="text-2xl font-bold mb-4">Quiz Time!</h2>
+                    <p class="text-gray-600 mb-6">Test your knowledge</p>
+                    <a href="/student/quizzes/{{lesson.id}}" 
+                        class="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 inline-block">
+                        Start Quiz
+                    </a>
+                </div>
+                {{/eq}}
+
+                {{#eq lesson.content_type "game"}}
+                <div class="text-center py-12">
+                    <div class="text-6xl mb-4">🎮</div>
+                    <h2 class="text-2xl font-bold mb-4">Interactive Game</h2>
+                    <p class="text-gray-600 mb-6">Learn by playing!</p>
+                    <button class="px-8 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+                        Start Game
+                    </button>
+                </div>
+                {{/eq}}
+
+                {{#eq lesson.content_type "simulation"}}
+                <div class="text-center py-12">
+                    <div class="text-6xl mb-4">🔬</div>
+                    <h2 class="text-2xl font-bold mb-4">Interactive Simulation</h2>
+                    <p class="text-gray-600 mb-6">Explore and experiment</p>
+                    <button class="px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                        Launch Simulation
+                    </button>
+                </div>
+                {{/eq}}
+
+                {{#eq lesson.content_type "interactive"}}
+                <div class="text-center py-12">
+                    <div class="text-6xl mb-4">✨</div>
+                    <h2 class="text-2xl font-bold mb-4">Interactive Content</h2>
+                    <p class="text-gray-600 mb-6">Engage with the material</p>
+                    <button class="px-8 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                        Start Activity
+                    </button>
+                </div>
+                {{/eq}}
+            </div>
+
+            <!-- Progress & Actions -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600 mb-2">Your Progress</p>
+                        <div class="bg-gray-200 rounded-full h-3 w-64">
+                            <div class="bg-blue-600 h-3 rounded-full" 
+                                style="width: {{progress.progress_percentage}}%"></div>
+                        </div>
+                    </div>
+                    <div class="flex space-x-4">
+                        {{#if progress.status}}
+                        {{#eq progress.status "completed"}}
+                        <button class="px-6 py-3 bg-green-600 text-white rounded-lg" disabled>
+                            ✓ Completed
+                        </button>
+                        {{else}}
+                        <button onclick="completeLesson()" 
+                            class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                            Mark as Complete
+                        </button>
+                        {{/eq}}
+                        {{else}}
+                        <button onclick="completeLesson()" 
+                            class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                            Mark as Complete
+                        </button>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function completeLesson() {
+            fetch('/student/lessons/{{lesson.id}}/complete', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert(`🎉 Lesson completed! You earned ${data.xp_earned} XP!`);
+                    location.reload();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - FUNLEARN</title>
+    <link rel="stylesheet" href="/funlearn-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <!-- Background Elements -->
+    <div class="fixed inset-0 -z-10">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50"></div>
+        <div class="absolute top-0 left-0 w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+        <div class="absolute top-0 right-0 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div class="absolute bottom-0 left-1/2 w-96 h-96 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+    </div>
+
+    <div class="w-full max-w-lg">
+        <!-- Registration Card -->
+        <div class="card glass p-8 fade-in">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="flex items-center justify-center space-x-3 mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white text-xl font-bold shadow-lg">
+                        F
+                    </div>
+                    <div>
+                        <h1 class="text-3xl font-bold text-gradient">FUNLEARN</h1>
+                        <p class="text-xs text-gray-500 -mt-1">Interactive Learning</p>
+                    </div>
+                </div>
+                <p class="text-gray-600">Create your account and start your learning journey!</p>
+            </div>
+
+            <!-- Error Message -->
+            {{#if error}}
+            <div class="notification notification-error mb-6 slide-up">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                    {{error}}
+                </div>
+            </div>
+            {{/if}}
+
+            <!-- Registration Form -->
+            <form action="/auth/register" method="POST" class="space-y-6">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="form-label">First Name</label>
+                        <input type="text" name="first_name" required 
+                            class="form-input" placeholder="Enter your first name">
+                    </div>
+                    <div>
+                        <label class="form-label">Last Name</label>
+                        <input type="text" name="last_name" required 
+                            class="form-input" placeholder="Enter your last name">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="form-label">Username</label>
+                    <input type="text" name="username" required 
+                        class="form-input" placeholder="Choose a username">
+                </div>
+
+                <div>
+                    <label class="form-label">Email Address</label>
+                    <input type="email" name="email" required 
+                        class="form-input" placeholder="Enter your email">
+                </div>
+
+                <div>
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" required minlength="6"
+                        class="form-input" placeholder="Create a password">
+                    <p class="text-xs text-gray-500 mt-1">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        Minimum 6 characters required
+                    </p>
+                </div>
+
+                <div>
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" name="confirm_password" required 
+                        class="form-input" placeholder="Confirm your password">
+                </div>
+
+                <div>
+                    <label class="form-label">I am a:</label>
+                    <select name="role" required class="form-input">
+                        <option value="">Select your role</option>
+                        <option value="student">🎓 Student - I want to learn</option>
+                        <option value="teacher">👨‍🏫 Teacher - I want to teach</option>
+                    </select>
+                </div>
+
+                <button type="submit" 
+                    class="btn btn-primary w-full btn-lg shadow-glow">
+                    <i class="fas fa-user-plus mr-2"></i>
+                    Create My Account
+                </button>
+            </form>
+
+            <!-- Links -->
+            <div class="mt-6 text-center space-y-2">
+                <p class="text-gray-600">
+                    Already have an account? 
+                    <a href="/login" class="text-blue-600 hover:text-blue-800 font-semibold">Sign in here</a>
+                </p>
+                <a href="/" class="text-gray-500 hover:text-gray-700 text-sm">
+                    <i class="fas fa-arrow-left mr-1"></i>
+                    Back to Home
+                </a>
+            </div>
+        </div>
+
+        <!-- Benefits Section -->
+        <div class="card mt-6 p-6 slide-up">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">
+                <i class="fas fa-star mr-2 text-yellow-500"></i>
+                Why Join FUNLEARN?
+            </h3>
+            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-gamepad text-blue-600"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-gray-800">Gamified Learning</div>
+                        <div class="text-gray-600">Earn XP and badges</div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-chart-line text-green-600"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-gray-800">Track Progress</div>
+                        <div class="text-gray-600">Real-time analytics</div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-users text-purple-600"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-gray-800">Community</div>
+                        <div class="text-gray-600">Learn with others</div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-certificate text-yellow-600"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-gray-800">Certificates</div>
+                        <div class="text-gray-600">Earn recognition</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add loading state to form
+            document.querySelector('form').addEventListener('submit', function(e) {
+                const button = this.querySelector('button[type="submit"]');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Creating Account...';
+                button.disabled = true;
+                
+                // Reset if form submission fails
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 5000);
+            });
+
+            // Password confirmation validation
+            const password = document.querySelector('input[name="password"]');
+            const confirmPassword = document.querySelector('input[name="confirm_password"]');
+            
+            function validatePasswords() {
+                if (password.value !== confirmPassword.value) {
+                    confirmPassword.setCustomValidity('Passwords do not match');
+                } else {
+                    confirmPassword.setCustomValidity('');
+                }
+            }
+            
+            password.addEventListener('input', validatePasswords);
+            confirmPassword.addEventListener('input', validatePasswords);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Class - FUNLEARN</title>
+    <link rel="stylesheet" href="/tailwind.css">
+    <link rel="stylesheet" href="/funlearn-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body class="bg-gray-50">
+    {{> header}}
+
+    <div class="container mx-auto px-6 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Error Message -->
+            {{#if errorMessage}}
+            <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-circle text-red-500 mr-3"></i>
+                    <span>{{errorMessage}}</span>
+                </div>
+                <button onclick="this.parentElement.style.display='none'" class="text-red-700 hover:text-red-900">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            {{/if}}
+
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h1 class="text-4xl font-bold text-gray-800">Create New Class</h1>
+                    <p class="text-gray-600 mt-2">Set up a new class for your students</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <a href="/teacher/classes" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Classes
+                    </a>
+                </div>
+            </div>
+
+            <!-- Class Creation Form -->
+            <form action="/teacher/classes/create" method="POST" class="space-y-8">
+                <!-- Basic Information -->
+                <div class="card p-6">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white text-xl mr-4">
+                            👥
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800">Class Information</h2>
+                            <p class="text-gray-600">Basic details about your class</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="md:col-span-2">
+                            <label class="form-label">Class Name *</label>
+                            <input type="text" name="class_name" required 
+                                   class="form-input" placeholder="e.g., Advanced JavaScript Programming">
+                            <p class="text-xs text-gray-500 mt-1">Choose a descriptive name for your class</p>
+                        </div>
+                        
+                        <div>
+                            <label class="form-label">Academic Year</label>
+                            <input type="text" name="academic_year" 
+                                   class="form-input" placeholder="e.g., 2024-2025">
+                            <p class="text-xs text-gray-500 mt-1">Optional academic year</p>
+                        </div>
+                        
+                        <div>
+                            <label class="form-label">Semester</label>
+                            <select name="semester" class="form-input">
+                                <option value="">Select semester (optional)</option>
+                                <option value="Fall">Fall</option>
+                                <option value="Spring">Spring</option>
+                                <option value="Summer">Summer</option>
+                                <option value="Winter">Winter</option>
+                            </select>
+                            <p class="text-xs text-gray-500 mt-1">Optional semester information</p>
+                        </div>
+                        
+                        <div class="md:col-span-2">
+                            <label class="form-label">Description</label>
+                            <textarea name="description" rows="4" 
+                                      class="form-input" placeholder="Describe what students will learn in this class..."></textarea>
+                            <p class="text-xs text-gray-500 mt-1">Optional description of the class content and objectives</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class Features -->
+                <div class="card p-6">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-lg flex items-center justify-center text-white text-xl mr-4">
+                            ⚙️
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800">Class Features</h2>
+                            <p class="text-gray-600">What you'll get with your new class</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-key text-blue-600 mr-2"></i>
+                                <h3 class="font-semibold text-blue-800">Unique Class Code</h3>
+                            </div>
+                            <p class="text-sm text-blue-600">Automatically generated 6-character code for student enrollment</p>
+                        </div>
+                        
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-users text-green-600 mr-2"></i>
+                                <h3 class="font-semibold text-green-800">Student Management</h3>
+                            </div>
+                            <p class="text-sm text-green-600">Add students, track progress, and manage enrollments</p>
+                        </div>
+                        
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-chart-line text-purple-600 mr-2"></i>
+                                <h3 class="font-semibold text-purple-800">Progress Tracking</h3>
+                            </div>
+                            <p class="text-sm text-purple-600">Monitor individual and class-wide learning progress</p>
+                        </div>
+                        
+                        <div class="bg-orange-50 p-4 rounded-lg">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-clipboard-list text-orange-600 mr-2"></i>
+                                <h3 class="font-semibold text-orange-800">Assignments & Quizzes</h3>
+                            </div>
+                            <p class="text-sm text-orange-600">Create and manage assignments and assessments</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+                    <div class="text-sm text-gray-500">
+                        * Required fields
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <a href="/teacher/classes" class="btn btn-secondary">
+                            Cancel
+                        </a>
+                        <button type="submit" name="redirect_to" value="classes" class="btn btn-secondary">
+                            <i class="fas fa-plus mr-2"></i>Create & View Classes
+                        </button>
+                        <button type="submit" name="redirect_to" value="dashboard" class="btn btn-primary">
+                            <i class="fas fa-plus mr-2"></i>Create & Go to Dashboard
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Form validation and interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            
+            // Form validation
+            form.addEventListener('submit', function(e) {
+                const className = document.querySelector('input[name="class_name"]').value.trim();
+                
+                if (!className) {
+                    e.preventDefault();
+                    alert('Please enter a class name');
+                    return false;
+                }
+
+                // Show loading state
+                const submitButton = e.submitter;
+                const originalText = submitButton.innerHTML;
+                
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Creating Class...';
+                
+                // Re-enable button after a delay in case of errors
+                setTimeout(() => {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalText;
+                }, 10000);
+            });
+
+            // Auto-hide error messages after 5 seconds
+            const messages = document.querySelectorAll('.bg-red-100');
+            messages.forEach(message => {
+                setTimeout(() => {
+                    message.style.opacity = '0';
+                    setTimeout(() => {
+                        message.style.display = 'none';
+                    }, 300);
+                }, 5000);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bulk Actions - DOH Sanitation System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .animate-fadeInUp {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .glass-hover:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .report-row:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .report-row.selected {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: rgba(99, 102, 241, 0.5);
+    }
+
+    .bulk-action-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-900 via-indigo-700 to-indigo-500 min-h-screen text-white">
+  
+  <!-- Navigation -->
+  <nav class="glass sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-4">
+          <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-2xl">
+            <svg class="w-7 h-7 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-xl font-bold">Bulk Actions</h1>
+            <p class="text-xs opacity-80">Process Multiple Reports</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="text-sm text-indigo-200">
+            <span id="selected-count">0</span> reports selected
+          </div>
+          <a href="/admin/analytics" class="glass glass-hover px-6 py-2.5 rounded-lg font-semibold transition-all duration-300 inline-flex items-center space-x-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            <span>Back to Analytics</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="max-w-7xl mx-auto px-6 py-12 text-center">
+    <div class="animate-fadeInUp">
+      <div class="inline-block glass px-6 py-2 rounded-full mb-6">
+        <span class="text-sm font-semibold">🔄 Bulk Operations Dashboard</span>
+      </div>
+      
+      <h1 class="text-4xl md:text-5xl font-extrabold leading-tight mb-4">
+        Bulk Actions<br/>
+        <span class="bg-gradient-to-r from-indigo-200 to-white bg-clip-text text-transparent">
+          Management
+        </span>
+      </h1>
+      
+      <p class="text-lg md:text-xl text-indigo-100 max-w-2xl mx-auto mb-8 leading-relaxed">
+        Process multiple reports simultaneously for efficient workflow management
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-6 pb-8">
+    
+    <!-- Action Bar -->
+    <section class="mb-8">
+      <div class="glass rounded-2xl p-6">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+          <!-- Selection Controls -->
+          <div class="flex flex-wrap items-center space-x-4">
+            <button onclick="selectAll()" class="glass glass-hover px-4 py-2 rounded-lg font-medium transition-all duration-300 inline-flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span>Select All</span>
+            </button>
+            <button onclick="selectNone()" class="glass glass-hover px-4 py-2 rounded-lg font-medium transition-all duration-300 inline-flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+              <span>Clear All</span>
+            </button>
+            <button onclick="selectPending()" class="glass glass-hover px-4 py-2 rounded-lg font-medium transition-all duration-300 inline-flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span>Select Pending</span>
+            </button>
+          </div>
+
+          <!-- Bulk Action Buttons -->
+          <div class="flex flex-wrap items-center space-x-2">
+            <button id="bulk-approve-btn" onclick="bulkApprove()" disabled class="bulk-action-btn bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 inline-flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span>Approve</span>
+            </button>
+            <button id="bulk-reject-btn" onclick="bulkReject()" disabled class="bulk-action-btn bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 inline-flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+              <span>Reject</span>
+            </button>
+            <button id="bulk-export-btn" onclick="bulkExport()" disabled class="bulk-action-btn bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 inline-flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-4-4m4 4l4-4"/>
+              </svg>
+              <span>Export</span>
+            </button>
+            <button id="bulk-assign-btn" onclick="bulkAssign()" disabled class="bulk-action-btn bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 inline-flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+              <span>Assign</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reports Table -->
+    <section class="mb-8">
+      <div class="glass rounded-2xl overflow-hidden">
+        <div class="p-6 border-b border-white/20">
+          <h2 class="text-2xl font-bold mb-2">Reports List</h2>
+          <p class="text-indigo-200">Select reports to perform bulk operations</p>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead class="bg-white/5">
+              <tr class="border-b border-white/20">
+                <th class="px-6 py-4 text-left">
+                  <input type="checkbox" id="select-all-checkbox" onchange="toggleSelectAll()" class="rounded">
+                </th>
+                <th class="px-6 py-4 text-left text-indigo-200 font-semibold text-sm uppercase tracking-wide">ID</th>
+                <th class="px-6 py-4 text-left text-indigo-200 font-semibold text-sm uppercase tracking-wide">Type</th>
+                <th class="px-6 py-4 text-left text-indigo-200 font-semibold text-sm uppercase tracking-wide">Status</th>
+                <th class="px-6 py-4 text-left text-indigo-200 font-semibold text-sm uppercase tracking-wide">Barangay</th>
+                <th class="px-6 py-4 text-left text-indigo-200 font-semibold text-sm uppercase tracking-wide">Inspector</th>
+                <th class="px-6 py-4 text-left text-indigo-200 font-semibold text-sm uppercase tracking-wide">Date</th>
+                <th class="px-6 py-4 text-left text-indigo-200 font-semibold text-sm uppercase tracking-wide">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="reports-table-body" class="divide-y divide-white/10">
+              <!-- Reports will be loaded here -->
+            </tbody>
+          </table>
+        </div>
+        
+        <div id="loading-indicator" class="p-8 text-center">
+          <div class="animate-spin w-8 h-8 border-4 border-white border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p class="text-indigo-200">Loading reports...</p>
+        </div>
+        
+        <div id="no-reports" class="hidden p-8 text-center">
+          <svg class="w-16 h-16 mx-auto mb-4 text-indigo-300 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          <p class="text-xl text-indigo-200 mb-2">No Reports Found</p>
+          <p class="text-indigo-300">There are no reports available for bulk operations.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress Modal -->
+    <div id="progress-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+      <div class="glass rounded-2xl p-8 max-w-md w-full text-center">
+        <div class="animate-spin w-12 h-12 border-4 border-white border-t-transparent rounded-full mx-auto mb-4"></div>
+        <h3 class="text-xl font-bold text-white mb-2" id="progress-title">Processing...</h3>
+        <p class="text-indigo-200 mb-4" id="progress-message">Please wait while we process your request...</p>
+        <div class="bg-white/20 rounded-full h-2 mb-4">
+          <div id="progress-bar" class="bg-gradient-to-r from-green-400 to-blue-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+        <p id="progress-status" class="text-sm text-indigo-300">Initializing...</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let reports = [];
+    let selectedReports = new Set();
+
+    // Load reports on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      loadReports();
+    });
+
+    async function loadReports() {
+      try {
+        const response = await fetch('/api/admin/reports');
+        const data = await response.json();
+        
+        if (data.success) {
+          reports = data.reports;
+          renderReports();
+        } else {
+          showNoReports();
+        }
+      } catch (error) {
+        console.error('Error loading reports:', error);
+        showNoReports();
+      }
+    }
+
+    function renderReports() {
+      const tbody = document.getElementById('reports-table-body');
+      const loadingIndicator = document.getElementById('loading-indicator');
+      const noReports = document.getElementById('no-reports');
+      
+      loadingIndicator.classList.add('hidden');
+      
+      if (reports.length === 0) {
+        noReports.classList.remove('hidden');
+        return;
+      }
+
+      tbody.innerHTML = reports.map(report => `
+        <tr class="report-row hover:bg-white/5 transition-all duration-200 border-b border-white/5" data-report-id="${report.id}">
+          <td class="px-6 py-4">
+            <input type="checkbox" class="report-checkbox rounded" value="${report.id}" onchange="toggleReportSelection(${report.id})">
+          </td>
+          <td class="px-6 py-4">
+            <span class="font-medium text-white">#${report.id}</span>
+          </td>
+          <td class="px-6 py-4">
+            <span class="px-3 py-1 rounded-full text-xs font-semibold ${getTypeColor(report.reportType)}">
+              ${formatReportType(report.reportType)}
+            </span>
+          </td>
+          <td class="px-6 py-4">
+            <span class="px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(report.status)}">
+              ${formatStatus(report.status)}
+            </span>
+          </td>
+          <td class="px-6 py-4">
+            <span class="text-indigo-200">${report.barangay}</span>
+          </td>
+          <td class="px-6 py-4">
+            <span class="text-indigo-200">${report.inspector?.fullName || 'N/A'}</span>
+          </td>
+          <td class="px-6 py-4">
+            <span class="text-indigo-200">${formatDate(report.createdAt)}</span>
+          </td>
+          <td class="px-6 py-4">
+            <button onclick="viewReport(${report.id})" class="text-indigo-300 hover:text-white transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+              </svg>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function showNoReports() {
+      document.getElementById('loading-indicator').classList.add('hidden');
+      document.getElementById('no-reports').classList.remove('hidden');
+    }
+
+    function toggleReportSelection(reportId) {
+      const checkbox = document.querySelector(`input[value="${reportId}"]`);
+      const row = document.querySelector(`tr[data-report-id="${reportId}"]`);
+      
+      if (checkbox.checked) {
+        selectedReports.add(reportId);
+        row.classList.add('selected');
+      } else {
+        selectedReports.delete(reportId);
+        row.classList.remove('selected');
+      }
+      
+      updateSelectionUI();
+    }
+
+    function updateSelectionUI() {
+      const count = selectedReports.size;
+      document.getElementById('selected-count').textContent = count;
+      
+      // Enable/disable bulk action buttons
+      const buttons = document.querySelectorAll('.bulk-action-btn');
+      buttons.forEach(btn => {
+        btn.disabled = count === 0;
+      });
+      
+      // Update select all checkbox
+      const selectAllCheckbox = document.getElementById('select-all-checkbox');
+      if (count === 0) {
+        selectAllCheckbox.indeterminate = false;
+        selectAllCheckbox.checked = false;
+      } else if (count === reports.length) {
+        selectAllCheckbox.indeterminate = false;
+        selectAllCheckbox.checked = true;
+      } else {
+        selectAllCheckbox.indeterminate = true;
+      }
+    }
+
+    function selectAll() {
+      const checkboxes = document.querySelectorAll('.report-checkbox');
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = true;
+        const reportId = parseInt(checkbox.value);
+        selectedReports.add(reportId);
+        document.querySelector(`tr[data-report-id="${reportId}"]`).classList.add('selected');
+      });
+      updateSelectionUI();
+    }
+
+    function selectNone() {
+      const checkboxes = document.querySelectorAll('.report-checkbox');
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+        const reportId = parseInt(checkbox.value);
+        selectedReports.delete(reportId);
+        document.querySelector(`tr[data-report-id="${reportId}"]`).classList.remove('selected');
+      });
+      updateSelectionUI();
+    }
+
+    function selectPending() {
+      selectNone();
+      const pendingReports = reports.filter(r => r.status === 'submitted' || r.status === 'under_review');
+      pendingReports.forEach(report => {
+        const checkbox = document.querySelector(`input[value="${report.id}"]`);
+        checkbox.checked = true;
+        selectedReports.add(report.id);
+        document.querySelector(`tr[data-report-id="${report.id}"]`).classList.add('selected');
+      });
+      updateSelectionUI();
+    }
+
+    function toggleSelectAll() {
+      const selectAllCheckbox = document.getElementById('select-all-checkbox');
+      if (selectAllCheckbox.checked) {
+        selectAll();
+      } else {
+        selectNone();
+      }
+    }
+
+    // Bulk Actions
+    async function bulkApprove() {
+      if (selectedReports.size === 0) return;
+      
+      if (!confirm(`Are you sure you want to approve ${selectedReports.size} selected reports?`)) {
+        return;
+      }
+
+      showProgress('Approving Reports', 'Processing bulk approval...');
+      
+      try {
+        const response = await fetch('/api/admin/bulk-update', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'approve',
+            reportIds: Array.from(selectedReports)
+          })
+        });
+
+        const data = await response.json();
+        hideProgress();
+
+        if (data.success) {
+          alert(`✅ Successfully approved ${data.updatedCount} reports!`);
+          loadReports();
+          selectNone();
+        } else {
+          alert(`❌ Error: ${data.error}`);
+        }
+      } catch (error) {
+        hideProgress();
+        alert('❌ Failed to approve reports. Please try again.');
+      }
+    }
+
+    async function bulkReject() {
+      if (selectedReports.size === 0) return;
+      
+      const reason = prompt('Please provide a reason for rejection:');
+      if (!reason) return;
+      
+      if (!confirm(`Are you sure you want to reject ${selectedReports.size} selected reports?`)) {
+        return;
+      }
+
+      showProgress('Rejecting Reports', 'Processing bulk rejection...');
+      
+      try {
+        const response = await fetch('/api/admin/bulk-update', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'reject',
+            reportIds: Array.from(selectedReports),
+            data: { reason }
+          })
+        });
+
+        const data = await response.json();
+        hideProgress();
+
+        if (data.success) {
+          alert(`❌ Successfully rejected ${data.updatedCount} reports!`);
+          loadReports();
+          selectNone();
+        } else {
+          alert(`❌ Error: ${data.error}`);
+        }
+      } catch (error) {
+        hideProgress();
+        alert('❌ Failed to reject reports. Please try again.');
+      }
+    }
+
+    async function bulkExport() {
+      if (selectedReports.size === 0) return;
+
+      showProgress('Exporting Reports', 'Generating export file...');
+      
+      try {
+        const response = await fetch('/api/admin/export', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            format: 'csv',
+            type: 'selected',
+            reportIds: Array.from(selectedReports)
+          })
+        });
+
+        if (response.ok) {
+          const blob = await response.blob();
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `bulk_export_${new Date().toISOString().split('T')[0]}.csv`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          
+          hideProgress();
+          alert(`📊 Successfully exported ${selectedReports.size} reports!`);
+        } else {
+          throw new Error('Export failed');
+        }
+      } catch (error) {
+        hideProgress();
+        alert('❌ Failed to export reports. Please try again.');
+      }
+    }
+
+    async function bulkAssign() {
+      if (selectedReports.size === 0) return;
+      
+      const reviewer = prompt('Enter reviewer name or ID:');
+      if (!reviewer) return;
+      
+      if (!confirm(`Assign ${selectedReports.size} reports to ${reviewer}?`)) {
+        return;
+      }
+
+      showProgress('Assigning Reports', 'Processing bulk assignment...');
+      
+      try {
+        const response = await fetch('/api/admin/bulk-update', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'assign',
+            reportIds: Array.from(selectedReports),
+            data: { reviewer }
+          })
+        });
+
+        const data = await response.json();
+        hideProgress();
+
+        if (data.success) {
+          alert(`👤 Successfully assigned ${data.updatedCount} reports to ${reviewer}!`);
+          loadReports();
+          selectNone();
+        } else {
+          alert(`❌ Error: ${data.error}`);
+        }
+      } catch (error) {
+        hideProgress();
+        alert('❌ Failed to assign reports. Please try again.');
+      }
+    }
+
+    // Utility Functions
+    function showProgress(title, message) {
+      document.getElementById('progress-title').textContent = title;
+      document.getElementById('progress-message').textContent = message;
+      document.getElementById('progress-modal').classList.remove('hidden');
+      
+      // Simulate progress
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress > 90) progress = 90;
+        document.getElementById('progress-bar').style.width = progress + '%';
+      }, 200);
+      
+      // Store interval for cleanup
+      window.currentProgressInterval = interval;
+    }
+
+    function hideProgress() {
+      if (window.currentProgressInterval) {
+        clearInterval(window.currentProgressInterval);
+      }
+      document.getElementById('progress-bar').style.width = '100%';
+      setTimeout(() => {
+        document.getElementById('progress-modal').classList.add('hidden');
+        document.getElementById('progress-bar').style.width = '0%';
+      }, 500);
+    }
+
+    function viewReport(reportId) {
+      window.open(`/admin/report/${reportId}`, '_blank');
+    }
+
+    function getStatusColor(status) {
+      switch(status) {
+        case 'approved': return 'bg-green-500/20 text-green-200 border border-green-400/30';
+        case 'submitted': return 'bg-blue-500/20 text-blue-200 border border-blue-400/30';
+        case 'under_review': return 'bg-yellow-500/20 text-yellow-200 border border-yellow-400/30';
+        case 'returned': return 'bg-orange-500/20 text-orange-200 border border-orange-400/30';
+        case 'rejected': return 'bg-red-500/20 text-red-200 border border-red-400/30';
+        default: return 'bg-gray-500/20 text-gray-200 border border-gray-400/30';
+      }
+    }
+
+    function getTypeColor(type) {
+      switch(type) {
+        case 'household': return 'bg-purple-500/20 text-purple-200 border border-purple-400/30';
+        case 'establishment': return 'bg-blue-500/20 text-blue-200 border border-blue-400/30';
+        case 'water_source': return 'bg-cyan-500/20 text-cyan-200 border border-cyan-400/30';
+        case 'wastewater_facility': return 'bg-teal-500/20 text-teal-200 border border-teal-400/30';
+        default: return 'bg-gray-500/20 text-gray-200 border border-gray-400/30';
+      }
+    }
+
+    function formatStatus(status) {
+      return status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+    }
+
+    function formatReportType(type) {
+      return type.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+    }
+
+    function formatDate(dateString) {
+      return new Date(dateString).toLocaleDateString();
+    }
+  </script>
+</body>
+</html>

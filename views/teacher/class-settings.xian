@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Settings - {{classData.class_name}} - FUNLEARN</title>
+    <link rel="stylesheet" href="/tailwind.css">
+    <link rel="stylesheet" href="/funlearn-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body class="bg-gray-50">
+    {{> header}}
+
+    <div class="container mx-auto px-6 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Navigation -->
+            <div class="flex items-center space-x-2 text-sm text-gray-500 mb-6">
+                <a href="/teacher/dashboard" class="hover:text-blue-600">Dashboard</a>
+                <i class="fas fa-chevron-right text-xs"></i>
+                <a href="/teacher/classes" class="hover:text-blue-600">Classes</a>
+                <i class="fas fa-chevron-right text-xs"></i>
+                <a href="/teacher/classes/{{classData.id}}" class="hover:text-blue-600">{{classData.class_name}}</a>
+                <i class="fas fa-chevron-right text-xs"></i>
+                <span class="text-gray-800">Settings</span>
+            </div>
+
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h1 class="text-4xl font-bold text-gray-800">⚙️ Class Settings</h1>
+                    <p class="text-gray-600 mt-2">Configure "{{classData.class_name}}" settings and preferences</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <a href="/teacher/classes/{{classData.id}}/manage" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Management
+                    </a>
+                </div>
+            </div>
+
+            <!-- Settings Form -->
+            <form action="/teacher/classes/{{classData.id}}/settings" method="POST" class="space-y-8">
+                <!-- Basic Settings -->
+                <div class="card p-6">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white text-xl mr-4">
+                            📚
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800">Basic Information</h2>
+                            <p class="text-gray-600">Update class details and information</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="form-label">Class Name *</label>
+                            <input type="text" name="class_name" value="{{classData.class_name}}" required 
+                                   class="form-input">
+                        </div>
+                        <div>
+                            <label class="form-label">Class Code</label>
+                            <input type="text" value="{{classData.class_code}}" readonly 
+                                   class="form-input bg-gray-50 font-mono">
+                            <p class="text-xs text-gray-500 mt-1">Class code cannot be changed</p>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="form-label">Description</label>
+                            <textarea name="description" rows="4" 
+                                      class="form-input">{{classData.description}}</textarea>
+                        </div>
+                        <div>
+                            <label class="form-label">Academic Year</label>
+                            <input type="text" name="academic_year" value="{{classData.academic_year}}"
+                                   class="form-input" placeholder="e.g., 2024-2025">
+                        </div>
+                        <div>
+                            <label class="form-label">Semester</label>
+                            <select name="semester" class="form-input">
+                                <option value="">Select semester</option>
+                                <option value="Fall" {{#eq classData.semester "Fall"}}selected{{/eq}}>Fall</option>
+                                <option value="Spring" {{#eq classData.semester "Spring"}}selected{{/eq}}>Spring</option>
+                                <option value="Summer" {{#eq classData.semester "Summer"}}selected{{/eq}}>Summer</option>
+                                <option value="Winter" {{#eq classData.semester "Winter"}}selected{{/eq}}>Winter</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class Status -->
+                <div class="card p-6">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-lg flex items-center justify-center text-white text-xl mr-4">
+                            🔄
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800">Class Status</h2>
+                            <p class="text-gray-600">Manage class availability and enrollment</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="form-label">Class Status</label>
+                            <select name="is_active" class="form-input">
+                                <option value="true" {{#if classData.is_active}}selected{{/if}}>Active</option>
+                                <option value="false" {{#unless classData.is_active}}selected{{/unless}}>Inactive</option>
+                            </select>
+                            <p class="text-xs text-gray-500 mt-1">Inactive classes are hidden from students</p>
+                        </div>
+                        <div>
+                            <label class="form-label">Enrollment Status</label>
+                            <select name="enrollment_open" class="form-input">
+                                <option value="true">Open for Enrollment</option>
+                                <option value="false">Closed for Enrollment</option>
+                            </select>
+                            <p class="text-xs text-gray-500 mt-1">Control whether students can join this class</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grading Settings -->
+                <div class="card p-6">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center text-white text-xl mr-4">
+                            🎯
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800">Grading Settings</h2>
+                            <p class="text-gray-600">Configure grading and assessment options</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="form-label">Grading Scale</label>
+                            <select name="grading_scale" class="form-input">
+                                <option value="percentage">Percentage (0-100%)</option>
+                                <option value="letter">Letter Grades (A-F)</option>
+                                <option value="points">Points Based</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label">Passing Grade</label>
+                            <input type="number" name="passing_grade" value="70" min="0" max="100"
+                                   class="form-input">
+                            <p class="text-xs text-gray-500 mt-1">Minimum grade to pass assignments</p>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="allow_late_submissions" class="mr-2">
+                                <span class="text-gray-700">Allow late submissions</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notification Settings -->
+                <div class="card p-6">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center text-white text-xl mr-4">
+                            🔔
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800">Notification Settings</h2>
+                            <p class="text-gray-600">Configure class notifications and alerts</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <label class="flex items-center">
+                            <input type="checkbox" name="notify_new_assignments" checked class="mr-2">
+                            <span class="text-gray-700">Notify students of new assignments</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="notify_grade_updates" checked class="mr-2">
+                            <span class="text-gray-700">Notify students when grades are posted</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="notify_due_dates" checked class="mr-2">
+                            <span class="text-gray-700">Send due date reminders</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="notify_announcements" checked class="mr-2">
+                            <span class="text-gray-700">Send class announcements</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Danger Zone -->
+                <div class="card p-6 border-red-200">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center text-white text-xl mr-4">
+                            ⚠️
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-red-800">Danger Zone</h2>
+                            <p class="text-red-600">Irreversible and destructive actions</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-red-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-red-800 mb-2">Archive Class</h3>
+                        <p class="text-red-600 text-sm mb-4">Archiving will make this class read-only. Students will no longer be able to submit assignments.</p>
+                        <button type="button" class="btn bg-red-600 text-white hover:bg-red-700" onclick="confirmArchive()">
+                            <i class="fas fa-archive mr-2"></i>Archive Class
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+                    <div class="text-sm text-gray-500">
+                        * Required fields
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <a href="/teacher/classes/{{classData.id}}/manage" class="btn btn-secondary">
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save mr-2"></i>Save Settings
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function confirmArchive() {
+            if (confirm('Are you sure you want to archive this class? This action cannot be undone.')) {
+                // TODO: Implement archive functionality
+                alert('Archive functionality coming soon!');
+            }
+        }
+
+        // Form validation and interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            
+            // Form validation
+            form.addEventListener('submit', function(e) {
+                const className = document.querySelector('input[name="class_name"]').value.trim();
+                
+                if (!className) {
+                    e.preventDefault();
+                    alert('Please enter a class name');
+                    return false;
+                }
+
+                // Show loading state
+                const submitButton = e.submitter;
+                const originalText = submitButton.innerHTML;
+                
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Saving...';
+                
+                // Re-enable button after a delay in case of errors
+                setTimeout(() => {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalText;
+                }, 10000);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Courses - FUNLEARN</title>
+    <link rel="stylesheet" href="/tailwind.css">
+    <link rel="stylesheet" href="/funlearn-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body class="bg-gray-50">
+    {{> header}}
+
+    <div class="container mx-auto px-6 py-8">
+        <!-- Page Header -->
+        <div class="text-center mb-12 fade-in">
+            <h1 class="text-5xl font-bold text-gradient mb-4">📚 Discover Courses</h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Explore our comprehensive library of interactive courses designed to accelerate your learning journey
+            </p>
+        </div>
+
+        <!-- Filters -->
+        <div class="card p-6 mb-8 slide-up">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold text-gray-800">🔍 Find Your Perfect Course</h2>
+                <button class="btn btn-secondary btn-sm" onclick="clearFilters()">Clear All</button>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-4">
+                <div>
+                    <label class="form-label">Category</label>
+                    <select class="form-input" id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="mathematics">📊 Mathematics</option>
+                        <option value="science">🔬 Science</option>
+                        <option value="programming">💻 Programming</option>
+                        <option value="languages">🗣️ Languages</option>
+                        <option value="arts">🎨 Arts</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="form-label">Difficulty</label>
+                    <select class="form-input" id="difficultyFilter">
+                        <option value="">All Levels</option>
+                        <option value="beginner">🌱 Beginner</option>
+                        <option value="intermediate">🌿 Intermediate</option>
+                        <option value="advanced">🌳 Advanced</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="form-label">Duration</label>
+                    <select class="form-input" id="durationFilter">
+                        <option value="">Any Duration</option>
+                        <option value="short">⚡ Quick (< 2 hours)</option>
+                        <option value="medium">🕐 Medium (2-5 hours)</option>
+                        <option value="long">📚 Comprehensive (5+ hours)</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="form-label">Search</label>
+                    <input type="text" placeholder="Search courses..." 
+                        class="form-input" id="searchInput">
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="stat-card text-center">
+                <div class="stat-value text-blue-600">{{courses.length}}</div>
+                <div class="stat-label">Available Courses</div>
+            </div>
+            <div class="stat-card text-center">
+                <div class="stat-value text-green-600">12</div>
+                <div class="stat-label">Categories</div>
+            </div>
+            <div class="stat-card text-center">
+                <div class="stat-value text-purple-600">450+</div>
+                <div class="stat-label">Total Lessons</div>
+            </div>
+            <div class="stat-card text-center">
+                <div class="stat-value text-yellow-600">15K+</div>
+                <div class="stat-label">Total XP Available</div>
+            </div>
+        </div>
+
+        <!-- Courses Grid -->
+        <div class="grid-cards" id="coursesGrid">
+            {{#each courses}}
+            <div class="group relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:border-blue-200 slide-up" 
+                 data-category="{{this.category}}" data-difficulty="{{this.difficulty_level}}" 
+                 style="animation-delay: {{multiply @index 0.1}}s">
+                
+                <!-- Course Thumbnail -->
+                <div class="relative h-48 bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-700 flex items-center justify-center overflow-hidden">
+                    <!-- Background Pattern -->
+                    <div class="absolute inset-0 opacity-20">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-white rounded-full translate-x-16 -translate-y-16"></div>
+                        <div class="absolute bottom-0 left-0 w-24 h-24 bg-white rounded-full -translate-x-12 translate-y-12"></div>
+                    </div>
+                    
+                    <!-- Course Icon -->
+                    <div class="relative z-10 text-6xl text-white group-hover:scale-110 transition-transform duration-300">
+                        {{#eq this.category "mathematics"}}📊{{/eq}}
+                        {{#eq this.category "science"}}🔬{{/eq}}
+                        {{#eq this.category "programming"}}💻{{/eq}}
+                        {{#unless this.category}}📚{{/unless}}
+                    </div>
+                    
+                    <!-- Difficulty Badge -->
+                    <div class="absolute top-4 left-4">
+                        <span class="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-semibold rounded-full border border-white/30">
+                            {{#eq this.difficulty_level "beginner"}}🌱 Beginner{{/eq}}
+                            {{#eq this.difficulty_level "intermediate"}}🌿 Intermediate{{/eq}}
+                            {{#eq this.difficulty_level "advanced"}}🌳 Advanced{{/eq}}
+                        </span>
+                    </div>
+                    
+                    <!-- Rating Badge -->
+                    <div class="absolute top-4 right-4">
+                        <div class="flex items-center space-x-1 bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full">
+                            <i class="fas fa-star text-yellow-400 text-xs"></i>
+                            <span class="text-white text-xs font-semibold">4.8</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Course Content -->
+                <div class="p-6">
+                    <!-- Course Header -->
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors line-clamp-2">
+                                {{this.title}}
+                            </h3>
+                            <p class="text-gray-600 text-sm line-clamp-2 leading-relaxed">{{this.description}}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Course Stats -->
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="flex items-center space-x-1 bg-yellow-50 text-yellow-700 px-2 py-1 rounded-lg">
+                                <i class="fas fa-star text-xs"></i>
+                                <span class="text-xs font-semibold">{{this.total_xp}} XP</span>
+                            </div>
+                            <div class="flex items-center space-x-1 text-gray-500">
+                                <i class="fas fa-book text-xs"></i>
+                                <span class="text-xs">{{this.modules.length}} modules</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-1 text-gray-500">
+                            <i class="fas fa-clock text-xs"></i>
+                            <span class="text-xs">2-3 hours</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Progress Section -->
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-medium text-gray-700">Your Progress</span>
+                            <span class="text-sm text-gray-500">0%</span>
+                        </div>
+                        <div class="relative">
+                            <div class="bg-gray-200 rounded-full h-2 overflow-hidden">
+                                <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Button -->
+                    <a href="/student/courses/{{this.id}}" 
+                        class="group/btn relative w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-xl font-semibold text-center block hover:shadow-lg hover:scale-105 transition-all duration-300 overflow-hidden">
+                        <span class="relative z-10 flex items-center justify-center">
+                            <i class="fas fa-play mr-2 group-hover/btn:mr-3 transition-all duration-300"></i>
+                            Start Learning
+                        </span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
+                    </a>
+                </div>
+                
+                <!-- Course Features -->
+                <div class="px-6 pb-6">
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded-lg text-xs font-medium flex items-center">
+                            <i class="fas fa-play-circle mr-1"></i>
+                            Interactive
+                        </span>
+                        <span class="bg-green-50 text-green-700 px-2 py-1 rounded-lg text-xs font-medium flex items-center">
+                            <i class="fas fa-certificate mr-1"></i>
+                            Certificate
+                        </span>
+                        <span class="bg-purple-50 text-purple-700 px-2 py-1 rounded-lg text-xs font-medium flex items-center">
+                            <i class="fas fa-mobile-alt mr-1"></i>
+                            Mobile
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Hover Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-t from-blue-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+            </div>
+            {{/each}}
+        </div>
+
+        <!-- Empty State -->
+        {{#unless courses.length}}
+        <div class="text-center py-20 slide-up">
+            <div class="text-8xl mb-6 opacity-50">📚</div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">No Courses Found</h3>
+            <p class="text-gray-600 mb-8 max-w-md mx-auto">
+                We couldn't find any courses matching your criteria. Try adjusting your filters or search terms.
+            </p>
+            <button class="btn btn-primary" onclick="clearFilters()">
+                🔄 Clear Filters
+            </button>
+        </div>
+        {{/unless}}
+
+        <!-- Load More Button -->
+        <div class="text-center mt-12">
+            <button class="btn btn-secondary btn-lg" onclick="loadMoreCourses()">
+                📚 Load More Courses
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Filter functionality
+        function clearFilters() {
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('difficultyFilter').value = '';
+            document.getElementById('durationFilter').value = '';
+            document.getElementById('searchInput').value = '';
+            filterCourses();
+        }
+
+        function filterCourses() {
+            const category = document.getElementById('categoryFilter').value.toLowerCase();
+            const difficulty = document.getElementById('difficultyFilter').value.toLowerCase();
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            
+            const courses = document.querySelectorAll('.course-card');
+            let visibleCount = 0;
+            
+            courses.forEach(course => {
+                const courseCategory = course.dataset.category?.toLowerCase() || '';
+                const courseDifficulty = course.dataset.difficulty?.toLowerCase() || '';
+                const courseTitle = course.querySelector('h3').textContent.toLowerCase();
+                const courseDescription = course.querySelector('p').textContent.toLowerCase();
+                
+                const matchesCategory = !category || courseCategory.includes(category);
+                const matchesDifficulty = !difficulty || courseDifficulty === difficulty;
+                const matchesSearch = !search || courseTitle.includes(search) || courseDescription.includes(search);
+                
+                if (matchesCategory && matchesDifficulty && matchesSearch) {
+                    course.style.display = 'block';
+                    course.style.animationDelay = (visibleCount * 0.1) + 's';
+                    visibleCount++;
+                } else {
+                    course.style.display = 'none';
+                }
+            });
+        }
+
+        function loadMoreCourses() {
+            // Simulate loading more courses
+            const button = event.target;
+            button.innerHTML = '<span class="spinner w-5 h-5 mr-2"></span>Loading...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = '📚 Load More Courses';
+                button.disabled = false;
+                // In a real app, you would load more courses here
+            }, 2000);
+        }
+
+        // Add event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('categoryFilter').addEventListener('change', filterCourses);
+            document.getElementById('difficultyFilter').addEventListener('change', filterCourses);
+            document.getElementById('searchInput').addEventListener('input', filterCourses);
+            
+            // Add hover effects
+            document.querySelectorAll('.course-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

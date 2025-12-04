@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - FUNLEARN</title>
+    <link rel="stylesheet" href="/tailwind.css">
+</head>
+<body class="bg-gray-50">
+    {{> header}}
+
+    <div class="container mx-auto px-6 py-8">
+        <h1 class="text-4xl font-bold mb-8">Admin Dashboard</h1>
+
+        <!-- Stats Grid -->
+        <div class="grid md:grid-cols-5 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Total Students</p>
+                        <p class="text-3xl font-bold text-blue-600">{{stats.total_students}}</p>
+                    </div>
+                    <div class="text-4xl">👨‍🎓</div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Total Teachers</p>
+                        <p class="text-3xl font-bold text-purple-600">{{stats.total_teachers}}</p>
+                    </div>
+                    <div class="text-4xl">👨‍🏫</div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Total Courses</p>
+                        <p class="text-3xl font-bold text-green-600">{{stats.total_courses}}</p>
+                    </div>
+                    <div class="text-4xl">📚</div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Active Classes</p>
+                        <p class="text-3xl font-bold text-yellow-600">{{stats.total_classes}}</p>
+                    </div>
+                    <div class="text-4xl">🏫</div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">Completions</p>
+                        <p class="text-3xl font-bold text-red-600">{{stats.total_completions}}</p>
+                    </div>
+                    <div class="text-4xl">✅</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Recent Users -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-2xl font-bold mb-6">Recent Users</h2>
+                <div class="space-y-3">
+                    {{#each recentUsers}}
+                    <div class="flex items-center justify-between p-3 border rounded hover:bg-gray-50">
+                        <div>
+                            <p class="font-semibold">{{this.first_name}} {{this.last_name}}</p>
+                            <p class="text-sm text-gray-500">{{this.email}} • {{this.role}}</p>
+                        </div>
+                        <a href="/admin/users/{{this.id}}" class="text-blue-600 hover:underline text-sm">View</a>
+                    </div>
+                    {{/each}}
+                </div>
+                <a href="/admin/users" class="block mt-4 text-center text-blue-600 hover:underline">
+                    View all users →
+                </a>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-2xl font-bold mb-6">Quick Actions</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <a href="/admin/users/create" 
+                        class="p-4 border-2 rounded-lg hover:bg-blue-50 hover:border-blue-600 text-center">
+                        <div class="text-3xl mb-2">👤</div>
+                        <p class="font-semibold">Add User</p>
+                    </a>
+                    <a href="/admin/courses" 
+                        class="p-4 border-2 rounded-lg hover:bg-purple-50 hover:border-purple-600 text-center">
+                        <div class="text-3xl mb-2">📚</div>
+                        <p class="font-semibold">Manage Courses</p>
+                    </a>
+                    <a href="/admin/badges" 
+                        class="p-4 border-2 rounded-lg hover:bg-yellow-50 hover:border-yellow-600 text-center">
+                        <div class="text-3xl mb-2">🏆</div>
+                        <p class="font-semibold">Manage Badges</p>
+                    </a>
+                    <a href="/admin/analytics" 
+                        class="p-4 border-2 rounded-lg hover:bg-green-50 hover:border-green-600 text-center">
+                        <div class="text-3xl mb-2">📊</div>
+                        <p class="font-semibold">View Analytics</p>
+                    </a>
+                    <a href="/admin/settings" 
+                        class="p-4 border-2 rounded-lg hover:bg-gray-50 hover:border-gray-600 text-center">
+                        <div class="text-3xl mb-2">⚙️</div>
+                        <p class="font-semibold">Settings</p>
+                    </a>
+                    <a href="/admin/audit-logs" 
+                        class="p-4 border-2 rounded-lg hover:bg-red-50 hover:border-red-600 text-center">
+                        <div class="text-3xl mb-2">📋</div>
+                        <p class="font-semibold">Audit Logs</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

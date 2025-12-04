@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Course - FUNLEARN</title>
+    <link rel="stylesheet" href="/tailwind.css">
+    <link rel="stylesheet" href="/funlearn-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body class="bg-gray-50">
+    {{> header}}
+
+    <div class="container mx-auto px-6 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Error Message -->
+            {{#if errorMessage}}
+            <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-circle text-red-500 mr-3"></i>
+                    <span>{{errorMessage}}</span>
+                </div>
+                <button onclick="this.parentElement.style.display='none'" class="text-red-700 hover:text-red-900">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            {{/if}}
+
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h1 class="text-4xl font-bold text-gray-800">Create New Course</h1>
+                    <p class="text-gray-600 mt-2">Design an engaging learning experience for your students</p>
+                </div>
+                <a href="/teacher/dashboard" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+                </a>
+            </div>
+
+            <!-- Course Creation Form -->
+            <form action="/teacher/courses" method="POST" class="space-y-8">
+                <!-- Basic Information -->
+                <div class="card p-6">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white text-xl mr-4">
+                            📚
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800">Course Information</h2>
+                            <p class="text-gray-600">Basic details about your course</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="form-label">Course Title *</label>
+                            <input type="text" name="title" required 
+                                   placeholder="e.g., Introduction to JavaScript"
+                                   class="form-input">
+                        </div>
+                        <div>
+                            <label class="form-label">Category *</label>
+                            <select name="category" required class="form-input">
+                                <option value="">Select a category</option>
+                                <option value="Programming">Programming</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="Science">Science</option>
+                                <option value="Language Arts">Language Arts</option>
+                                <option value="History">History</option>
+                                <option value="Art">Art</option>
+                                <option value="Music">Music</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="form-label">Description *</label>
+                            <textarea name="description" rows="4" required 
+                                      placeholder="Describe what students will learn in this course..."
+                                      class="form-input"></textarea>
+                        </div>
+                        <div>
+                            <label class="form-label">Difficulty Level *</label>
+                            <select name="difficulty_level" required class="form-input">
+                                <option value="">Select difficulty</option>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label">Estimated Duration (minutes)</label>
+                            <input type="number" name="estimated_duration" 
+                                   placeholder="e.g., 120"
+                                   class="form-input">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Settings -->
+                <div class="card p-6">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-lg flex items-center justify-center text-white text-xl mr-4">
+                            ⚙️
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800">Course Settings</h2>
+                            <p class="text-gray-600">Configure how your course behaves</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="form-label">XP Reward per Lesson</label>
+                            <input type="number" name="xp_reward" value="50" 
+                                   placeholder="50"
+                                   class="form-input">
+                            <p class="text-xs text-gray-500 mt-1">XP students earn for completing each lesson</p>
+                        </div>
+                        <div>
+                            <label class="form-label">Prerequisites</label>
+                            <input type="text" name="prerequisites" 
+                                   placeholder="e.g., Basic computer skills"
+                                   class="form-input">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="form-label">Learning Objectives</label>
+                            <textarea name="learning_objectives" rows="3" 
+                                      placeholder="List what students will be able to do after completing this course..."
+                                      class="form-input"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Visibility -->
+                <div class="card p-6">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center text-white text-xl mr-4">
+                            👁️
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800">Visibility & Access</h2>
+                            <p class="text-gray-600">Control who can see and access your course</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <input type="checkbox" id="is_published" name="is_published" value="true" 
+                                   class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                            <label for="is_published" class="text-sm font-medium text-gray-700">
+                                Publish course immediately
+                            </label>
+                        </div>
+                        <p class="text-xs text-gray-500 ml-7">
+                            If unchecked, the course will be saved as a draft and won't be visible to students
+                        </p>
+                        
+                        <div class="flex items-center space-x-3">
+                            <input type="checkbox" id="allow_enrollment" name="allow_enrollment" value="true" checked
+                                   class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                            <label for="allow_enrollment" class="text-sm font-medium text-gray-700">
+                                Allow student enrollment
+                            </label>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <input type="checkbox" id="featured" name="featured" value="true"
+                                   class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                            <label for="featured" class="text-sm font-medium text-gray-700">
+                                Feature this course
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+                    <div class="text-sm text-gray-500">
+                        * Required fields
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <a href="/teacher/dashboard" class="btn btn-secondary">
+                            Cancel
+                        </a>
+                        <button type="submit" name="action" value="draft" class="btn btn-secondary">
+                            <i class="fas fa-save mr-2"></i>Save as Draft
+                        </button>
+                        <button type="submit" name="action" value="publish" class="btn btn-primary">
+                            <i class="fas fa-rocket mr-2"></i>Create & Publish
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Form validation and interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const publishButton = document.querySelector('button[value="publish"]');
+            const draftButton = document.querySelector('button[value="draft"]');
+            const isPublishedCheckbox = document.getElementById('is_published');
+            
+            // Auto-check publish checkbox when clicking publish button
+            publishButton.addEventListener('click', function() {
+                isPublishedCheckbox.checked = true;
+            });
+            
+            // Uncheck publish checkbox when clicking draft button
+            draftButton.addEventListener('click', function() {
+                isPublishedCheckbox.checked = false;
+            });
+            
+            // Form validation and submission handling
+            form.addEventListener('submit', function(e) {
+                const title = document.querySelector('input[name="title"]').value.trim();
+                const category = document.querySelector('select[name="category"]').value;
+                const description = document.querySelector('textarea[name="description"]').value.trim();
+                const difficulty = document.querySelector('select[name="difficulty_level"]').value;
+                
+                if (!title || !category || !description || !difficulty) {
+                    e.preventDefault();
+                    alert('Please fill in all required fields (marked with *)');
+                    return false;
+                }
+
+                // Show loading state
+                const submitButton = e.submitter;
+                const originalText = submitButton.innerHTML;
+                const isPublish = submitButton.value === 'publish';
+                
+                submitButton.disabled = true;
+                submitButton.innerHTML = isPublish ? 
+                    '<i class="fas fa-spinner fa-spin mr-2"></i>Creating & Publishing...' : 
+                    '<i class="fas fa-spinner fa-spin mr-2"></i>Saving Draft...';
+                
+                // Re-enable button after a delay in case of errors
+                setTimeout(() => {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalText;
+                }, 10000);
+            });
+        });
+    </script>
+</body>
+</html>
